@@ -17,7 +17,7 @@ Quiet-luxury tailoring-atelier aesthetic — refined, warm, editorial, generous 
 | Animation      | Framer Motion (subtle fades / soft slides only)    |
 | Map            | react-leaflet + Leaflet + OpenStreetMap (no API keys) |
 | Icons          | lucide-react                                       |
-| Fonts          | Cormorant Garamond (headings) + Jost (body/UI)     |
+| Fonts          | Cormorant Garamond (headings) + Avenir Book/Black (UI) |
 
 No email backend, no i18n, no Arabic — direct-link contact only (`wa.me` / `tel:` / `mailto:`).
 
@@ -32,6 +32,37 @@ tokens in [`tailwind.config.ts`](tailwind.config.ts):
 - Burgundy `#6b1f2a` — **signature accent** (CTAs, hovers, highlights)
 - Sky Blue `#97b3c8` — cool accent (sparing)
 - Charcoal `#2b2b2b` — body ink
+
+### Contrast rule (burgundy vs dark)
+Burgundy `#6b1f2a` is the signature accent **only on light surfaces** (cream/taupe) —
+buttons, hovers, links, eyebrow labels there stay burgundy. On **dark** backgrounds
+(espresso `#4a3428` / charcoal `#2b2b2b`) burgundy fails contrast, so any decorative
+burgundy element (numerals, icons, dividers) uses **Taupe `#cbbeae`** instead (e.g. the
+homepage "How Our Home Fitting Service Works" step numerals — now 6.4:1, WCAG AA).
+CTAs on dark sections use the **cream** button variant (cream fill / espresso text) so
+they stay clearly actionable.
+
+## Typography
+
+Three roles, wired as CSS variables and Tailwind `fontFamily` tokens:
+
+| Role | Font | Tailwind token / var | Notes |
+| ---- | ---- | -------------------- | ----- |
+| Headings (h1–h6, display) | **Cormorant Garamond 300** (Light) | `font-serif` / `--font-cormorant` | Only 300 + 300-italic loaded; `font-weight: 300` enforced globally. Emphasise key words with `<em class="italic">` → real Cormorant **300 Italic**. |
+| Eyebrow / subheader labels | **Avenir Black** | `font-subheader` / `--font-subheader` | Rendered ALL CAPS with letter-spacing (`.eyebrow` utility). |
+| Body & UI (paragraphs, nav, buttons, captions) | **Avenir Book** | `font-sans` / `--font-body` | Default body font. |
+
+Cormorant loads via `next/font/google`. **Avenir** is self-hosted: the client-supplied
+`Avenir.ttc` (TrueType Collection, not web-usable) was inspected with fontTools — it
+contains 12 faces including **Avenir Book** and **Avenir Black**. Those two were extracted
+and converted to `.woff2` (`public/fonts/AvenirBook.woff2`, `public/fonts/AvenirBlack.woff2`)
+and wired with `next/font/local`. Only those two `.woff2` files are served; the source
+`Avenir.ttc` lives in `/fonts-source` (outside `/public`, git-ignored) and is **not shipped**.
+
+**To swap or add an Avenir weight later:** convert the desired face from the collection to
+`.woff2` (extract face → compress via fontTools/brotli), drop it in `public/fonts`, and add
+another `localFont({ … })` in [`src/app/layout.tsx`](src/app/layout.tsx). Jost has been fully
+removed.
 
 ---
 

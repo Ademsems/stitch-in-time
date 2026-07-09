@@ -45,8 +45,9 @@ export default function ServicesPage() {
         <div className="container py-24 md:py-32">
           <Reveal className="max-w-3xl">
             <p className="eyebrow text-cream/70">Our Services</p>
-            <h1 className="mt-4 font-serif text-4xl font-medium leading-tight text-cream md:text-6xl">
-              Professional Tailoring &amp; Alterations Across the UAE.
+            <h1 className="mt-4 font-serif text-4xl leading-tight text-cream md:text-6xl">
+              Professional Tailoring &amp; Alterations{" "}
+              <em className="italic">Across the UAE.</em>
             </h1>
             <div className="mt-8 space-y-5 font-sans text-base leading-relaxed text-cream/85 md:text-lg">
               <p>

@@ -116,8 +116,8 @@ export default function AboutPage() {
           <div className="grid items-center gap-12 lg:grid-cols-2 lg:gap-16">
             <Reveal>
               <p className="eyebrow">Our Story</p>
-              <h1 className="mt-4 font-serif text-4xl font-medium leading-tight text-espresso md:text-6xl">
-                Founded in 2008, on a Simple Belief.
+              <h1 className="mt-4 font-serif text-4xl leading-tight text-espresso md:text-6xl">
+                Founded in 2008, on a <em className="italic">Simple Belief.</em>
               </h1>
               <div className="mt-6 space-y-5 font-sans text-base leading-relaxed text-ink/80">
                 <p className="font-serif text-xl italic text-espresso/90">

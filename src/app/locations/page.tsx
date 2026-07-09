@@ -92,8 +92,9 @@ export default function LocationsPage() {
         <div className="container py-20 md:py-24">
           <Reveal className="max-w-3xl">
             <p className="eyebrow">Our Locations</p>
-            <h1 className="mt-4 font-serif text-4xl font-medium leading-tight text-espresso md:text-6xl">
-              11 Mall Boutiques Across Dubai &amp; Abu Dhabi.
+            <h1 className="mt-4 font-serif text-4xl leading-tight text-espresso md:text-6xl">
+              11 Mall Boutiques Across{" "}
+              <em className="italic">Dubai &amp; Abu Dhabi.</em>
             </h1>
             <div className="mt-6 space-y-4 font-sans text-base leading-relaxed text-ink/80">
               <p>
@@ -165,7 +166,7 @@ export default function LocationsPage() {
                         <c.icon className="h-4 w-4" />
                       </span>
                       <span>
-                        <span className="block font-sans text-xs uppercase tracking-wide text-cream/55">
+                        <span className="block font-subheader text-xs uppercase tracking-wide text-cream/55">
                           {c.label}
                         </span>
                         <span className="block font-sans text-base text-cream/90">

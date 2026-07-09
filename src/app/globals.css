@@ -47,10 +47,16 @@
   body {
     @apply bg-background text-foreground font-sans antialiased;
     text-rendering: optimizeLegibility;
+    /* Only one Cormorant weight (300) is loaded — never fake a bolder weight.
+       Style synthesis is left enabled so body italics still render. */
+    font-synthesis-weight: none;
   }
 
-  h1, h2, h3, h4, h5 {
+  /* Headings are Cormorant Garamond Light (300) everywhere. Accent/emphasis
+     words use <em> / .italic → real 300 Italic (loaded), not faux italic. */
+  h1, h2, h3, h4, h5, h6 {
     @apply font-serif;
+    font-weight: 300;
   }
 
   /* Visible, on-brand focus for keyboard users (WCAG AA) */
@@ -64,9 +70,10 @@
 }
 
 @layer components {
-  /* Small tracked-out editorial eyebrow label */
+  /* Small tracked-out editorial eyebrow / subheader label — Avenir Black, caps */
   .eyebrow {
-    @apply font-sans text-xs uppercase tracking-luxe text-burgundy;
+    @apply font-subheader text-xs uppercase tracking-luxe text-burgundy;
+    font-weight: 900;
   }
 
   .section {
@@ -95,7 +102,7 @@
 
 /* Leaflet: keep controls above content but below our modals */
 .leaflet-container {
-  font-family: var(--font-jost), system-ui, sans-serif;
+  font-family: var(--font-body), "Avenir", "Helvetica Neue", system-ui, sans-serif;
   background: hsl(var(--taupe));
   z-index: 0;
 }

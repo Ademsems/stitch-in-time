@@ -163,7 +163,7 @@ function BranchGroup({
 }) {
   return (
     <div className="mb-6">
-      <h3 className="sticky top-0 z-10 bg-cream/95 py-2 font-sans text-xs uppercase tracking-luxe text-burgundy backdrop-blur">
+      <h3 className="sticky top-0 z-10 bg-cream/95 py-2 font-subheader text-xs uppercase tracking-luxe text-burgundy backdrop-blur">
         {title} — {count} {count === 1 ? "Location" : "Locations"}
       </h3>
       <ul className="mt-2 space-y-2">

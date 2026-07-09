@@ -30,3 +30,7 @@ next-env.d.ts
 
 # working scratch
 extracted_content.txt
+
+# Font source collection (.ttc) — not shipped; only the extracted .woff2 in
+# public/fonts are served. Kept locally for future weight extraction.
+/fonts-source/

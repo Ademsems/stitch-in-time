@@ -26,7 +26,7 @@ export function Logo({ tone = "dark", className, asLink = true }: LogoProps) {
     <span className={cn("inline-flex flex-col leading-none", className)}>
       <span
         className={cn(
-          "font-serif text-2xl font-semibold tracking-tight md:text-[1.75rem]",
+          "font-serif text-2xl tracking-tight md:text-[1.75rem]",
           isLight ? "text-cream" : "text-espresso"
         )}
       >
@@ -34,7 +34,7 @@ export function Logo({ tone = "dark", className, asLink = true }: LogoProps) {
       </span>
       <span
         className={cn(
-          "mt-1 font-sans text-[0.5rem] uppercase tracking-luxe md:text-[0.6rem]",
+          "mt-1 font-subheader text-[0.5rem] uppercase tracking-luxe md:text-[0.6rem]",
           isLight ? "text-cream/70" : "text-burgundy"
         )}
       >

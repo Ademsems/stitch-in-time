@@ -126,7 +126,7 @@ export default function BranchMap({
 function BranchPopup({ branch }: { branch: Branch }) {
   return (
     <div className="min-w-[210px] font-sans text-ink">
-      <p className="font-serif text-lg font-semibold text-espresso">{branch.name}</p>
+      <p className="font-serif text-lg text-espresso">{branch.name}</p>
       <p className="mt-0.5 text-xs uppercase tracking-wide text-burgundy">
         {branch.emirate}
       </p>

@@ -99,7 +99,7 @@ export function SmartImage({
           {monogram}
         </span>
         <span className="h-px w-10 bg-cream/40" aria-hidden />
-        <span className="font-sans text-[0.65rem] uppercase tracking-luxe text-cream/60">
+        <span className="font-subheader text-[0.65rem] uppercase tracking-luxe text-cream/60">
           {label}
         </span>
       </div>

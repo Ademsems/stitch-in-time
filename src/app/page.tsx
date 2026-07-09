@@ -124,10 +124,10 @@ export default function HomePage() {
         <div className="container py-28">
           <Reveal className="max-w-3xl">
             <p className="eyebrow text-cream/80">Since 2008 · Dubai &amp; Abu Dhabi</p>
-            <h1 className="mt-5 font-serif text-5xl font-medium leading-[1.05] text-cream sm:text-6xl md:text-7xl">
+            <h1 className="mt-5 font-serif text-5xl leading-[1.05] text-cream sm:text-6xl md:text-7xl">
               The Perfect Fit,
               <br />
-              Wherever You Are.
+              <em className="italic">Wherever You Are.</em>
             </h1>
             <p className="mt-6 max-w-xl font-sans text-lg leading-relaxed text-cream/85">
               Expert clothing alterations, repairs, and home fitting service —
@@ -234,7 +234,8 @@ export default function HomePage() {
             {STEPS.map((step, i) => (
               <Reveal as="li" key={step.n} delay={i * 0.08}>
                 <div className="relative">
-                  <span className="font-serif text-5xl text-burgundy/90">{step.n}</span>
+                  {/* Taupe (not burgundy) for legibility on the espresso background — WCAG AA. */}
+                  <span className="font-serif text-5xl text-taupe">{step.n}</span>
                   <h3 className="mt-3 font-serif text-xl text-cream">{step.title}</h3>
                   <p className="mt-2 font-sans text-sm leading-relaxed text-cream/70">
                     {step.copy}

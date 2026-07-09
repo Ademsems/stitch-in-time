@@ -53,8 +53,12 @@ const config: Config = {
         },
       },
       fontFamily: {
+        // Headings — Cormorant Garamond Light (300), italic for accent words.
         serif: ["var(--font-cormorant)", "Cormorant Garamond", "Georgia", "serif"],
-        sans: ["var(--font-jost)", "Jost", "system-ui", "sans-serif"],
+        // Body / UI — Avenir Book.
+        sans: ["var(--font-body)", "Avenir", "Helvetica Neue", "system-ui", "sans-serif"],
+        // Eyebrow / subheader labels — Avenir Black (used ALL CAPS).
+        subheader: ["var(--font-subheader)", "Avenir", "Helvetica Neue", "sans-serif"],
       },
       borderRadius: {
         lg: "var(--radius)",

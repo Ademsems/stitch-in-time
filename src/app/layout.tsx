@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
-import { Cormorant_Garamond, Jost } from "next/font/google";
+import { Cormorant_Garamond } from "next/font/google";
+import localFont from "next/font/local";
 import "./globals.css";
 import { SITE } from "@/lib/site";
 import { BookingProvider } from "@/components/BookingProvider";
@@ -9,17 +10,35 @@ import { WhatsAppButton } from "@/components/WhatsAppButton";
 import { JsonLd } from "@/components/JsonLd";
 import { organizationSchema } from "@/lib/jsonld";
 
+/**
+ * Type system (see README):
+ *  • Headings  — Cormorant Garamond 300 (Light), 300 Italic for accent words.
+ *  • Body / UI — Avenir Book  (self-hosted woff2, extracted from Avenir.ttc).
+ *  • Eyebrows  — Avenir Black  (self-hosted woff2), rendered ALL CAPS.
+ */
 const cormorant = Cormorant_Garamond({
   subsets: ["latin"],
-  weight: ["400", "500", "600", "700"],
+  weight: ["300"],
+  style: ["normal", "italic"],
   variable: "--font-cormorant",
   display: "swap",
 });
 
-const jost = Jost({
-  subsets: ["latin"],
-  weight: ["300", "400", "500", "600"],
-  variable: "--font-jost",
+// Avenir Book → default body/UI text.
+const avenirBody = localFont({
+  src: "../../public/fonts/AvenirBook.woff2",
+  weight: "400",
+  style: "normal",
+  variable: "--font-body",
+  display: "swap",
+});
+
+// Avenir Black → heavy subheader / eyebrow labels.
+const avenirSubheader = localFont({
+  src: "../../public/fonts/AvenirBlack.woff2",
+  weight: "900",
+  style: "normal",
+  variable: "--font-subheader",
   display: "swap",
 });
 
@@ -76,7 +95,10 @@ export default function RootLayout({
   children,
 }: Readonly<{ children: React.ReactNode }>) {
   return (
-    <html lang="en" className={`${cormorant.variable} ${jost.variable}`}>
+    <html
+      lang="en"
+      className={`${cormorant.variable} ${avenirBody.variable} ${avenirSubheader.variable}`}
+    >
       <body className="min-h-screen bg-background font-sans text-foreground">
         <JsonLd data={organizationSchema()} />
         <BookingProvider>

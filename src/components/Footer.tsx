@@ -42,7 +42,7 @@ export function Footer() {
 
         {/* Explore */}
         <nav aria-label="Footer">
-          <h2 className="font-sans text-xs uppercase tracking-luxe text-cream/50">
+          <h2 className="font-subheader text-xs uppercase tracking-luxe text-cream/50">
             Explore
           </h2>
           <ul className="mt-5 space-y-3 text-sm">
@@ -61,7 +61,7 @@ export function Footer() {
 
         {/* Branch summary */}
         <div>
-          <h2 className="font-sans text-xs uppercase tracking-luxe text-cream/50">
+          <h2 className="font-subheader text-xs uppercase tracking-luxe text-cream/50">
             11 UAE Locations
           </h2>
           <div className="mt-5 space-y-4 text-sm text-cream/75">
@@ -92,7 +92,7 @@ export function Footer() {
 
         {/* Contact */}
         <div>
-          <h2 className="font-sans text-xs uppercase tracking-luxe text-cream/50">
+          <h2 className="font-subheader text-xs uppercase tracking-luxe text-cream/50">
             Contact
           </h2>
           <ul className="mt-5 space-y-3 text-sm">
