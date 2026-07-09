@@ -1,0 +1,105 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Leaflet core styles (self-hosted via npm — no CDN, no keys) */
+@import "leaflet/dist/leaflet.css";
+
+@layer base {
+  :root {
+    /* Brand palette expressed as HSL for Tailwind alpha support.
+       Cream Ivory #e8e2d8 · Taupe #cbbeae · Espresso #4a3428
+       Burgundy #6b1f2a · Sky Blue #97b3c8 · Charcoal #2b2b2b */
+    --cream: 39 30% 88%;
+    --taupe: 33 24% 74%;
+    --espresso: 22 29% 22%;
+    --burgundy: 352 55% 27%;
+    --sky: 205 30% 69%;
+    --ink: 0 0% 17%;
+
+    /* Semantic tokens */
+    --background: var(--cream);
+    --foreground: var(--ink);
+    --border: 33 20% 68%;
+    --input: 33 20% 68%;
+    --ring: 352 55% 27%;
+
+    --primary: var(--burgundy);
+    --primary-foreground: 39 30% 92%;
+    --secondary: var(--taupe);
+    --secondary-foreground: var(--espresso);
+    --muted: 36 22% 82%;
+    --muted-foreground: 24 12% 38%;
+    --accent: var(--sky);
+    --accent-foreground: var(--espresso);
+
+    --radius: 0.25rem;
+  }
+
+  * {
+    @apply border-border;
+  }
+
+  html {
+    scroll-behavior: smooth;
+  }
+
+  body {
+    @apply bg-background text-foreground font-sans antialiased;
+    text-rendering: optimizeLegibility;
+  }
+
+  h1, h2, h3, h4, h5 {
+    @apply font-serif;
+  }
+
+  /* Visible, on-brand focus for keyboard users (WCAG AA) */
+  :focus-visible {
+    @apply outline-none ring-2 ring-ring ring-offset-2 ring-offset-background;
+  }
+
+  ::selection {
+    @apply bg-burgundy text-cream;
+  }
+}
+
+@layer components {
+  /* Small tracked-out editorial eyebrow label */
+  .eyebrow {
+    @apply font-sans text-xs uppercase tracking-luxe text-burgundy;
+  }
+
+  .section {
+    @apply py-20 md:py-28;
+  }
+
+  /* Thin hairline rule used between editorial blocks */
+  .hairline {
+    @apply h-px w-16 bg-burgundy/60;
+  }
+}
+
+/* Reduced motion: honour user preference across Framer + CSS */
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
+  }
+}
+
+/* Leaflet: keep controls above content but below our modals */
+.leaflet-container {
+  font-family: var(--font-jost), system-ui, sans-serif;
+  background: hsl(var(--taupe));
+  z-index: 0;
+}
+
+.leaflet-popup-content-wrapper {
+  border-radius: var(--radius);
+}

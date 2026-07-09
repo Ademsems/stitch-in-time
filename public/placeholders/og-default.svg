@@ -1,0 +1,14 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="630" viewBox="0 0 1200 630" role="img" aria-label="Stitch In Time — Clothing Alterations, Dubai & Abu Dhabi">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#4a3428"/>
+      <stop offset="1" stop-color="#2b2b2b"/>
+    </linearGradient>
+  </defs>
+  <rect width="1200" height="630" fill="url(#bg)"/>
+  <rect x="48" y="48" width="1104" height="534" fill="none" stroke="#e8e2d8" stroke-opacity="0.25"/>
+  <text x="600" y="270" text-anchor="middle" font-family="Cormorant Garamond, Georgia, serif" font-size="96" font-weight="600" fill="#e8e2d8" letter-spacing="2">STITCH IN TIME</text>
+  <line x1="540" y1="320" x2="660" y2="320" stroke="#6b1f2a" stroke-width="3"/>
+  <text x="600" y="372" text-anchor="middle" font-family="Jost, Arial, sans-serif" font-size="26" fill="#cbbeae" letter-spacing="10">CLOTHING ALTERATIONS</text>
+  <text x="600" y="470" text-anchor="middle" font-family="Jost, Arial, sans-serif" font-size="28" fill="#e8e2d8" letter-spacing="2">Expert Tailoring · Dubai &amp; Abu Dhabi · Since 2008</text>
+</svg>

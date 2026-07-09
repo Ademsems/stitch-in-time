@@ -1,0 +1,14 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="800" viewBox="0 0 1200 800" role="img" aria-label="Stitch In Time boutique — image coming soon">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#cbbeae"/>
+      <stop offset="0.55" stop-color="#4a3428"/>
+      <stop offset="1" stop-color="#2b2b2b"/>
+    </linearGradient>
+  </defs>
+  <rect width="1200" height="800" fill="url(#bg)"/>
+  <rect x="36" y="36" width="1128" height="728" fill="none" stroke="#e8e2d8" stroke-opacity="0.22"/>
+  <text x="600" y="400" text-anchor="middle" font-family="Cormorant Garamond, Georgia, serif" font-size="130" font-weight="600" fill="#e8e2d8" fill-opacity="0.92">SiT</text>
+  <line x1="560" y1="450" x2="640" y2="450" stroke="#e8e2d8" stroke-opacity="0.4" stroke-width="2"/>
+  <text x="600" y="500" text-anchor="middle" font-family="Jost, Arial, sans-serif" font-size="22" fill="#e8e2d8" fill-opacity="0.6" letter-spacing="8">IMAGE COMING SOON</text>
+</svg>
