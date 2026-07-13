@@ -22,6 +22,8 @@ export interface Service {
   groups?: ServiceGroup[];
   /** Alt text for the paired image placeholder (per doc alt-text guidance). */
   imageAlt: string;
+  /** Final intended path in /public — resolveImageSrc() shows placeholder if not present yet. */
+  imageSrc: string;
   contact?: string;
 }
 
@@ -33,6 +35,7 @@ export const SERVICES: Service[] = [
     heading: "Alterations That Actually Fit Right.",
     imageAlt:
       "Tailor pinning a garment for precise alteration at a Stitch In Time atelier in Dubai",
+    imageSrc: "/images/services/service-alterations.jpg",
     intro: [
       "A well-fitted garment changes how you look and how you feel. Our tailors specialise in precise alterations across all garment types — from everyday clothing to luxury and designer pieces — ensuring a refined, clean finish every time.",
       "All alteration prices are confirmed at the point of pinning. Every garment is measured and approved by the customer before work begins.",
@@ -109,6 +112,7 @@ export const SERVICES: Service[] = [
     heading: "Restore Your Favourite Pieces.",
     imageAlt:
       "Close-up of a premium YKK zip replacement during a clothing repair in Abu Dhabi",
+    imageSrc: "/images/services/service-repairs-restoration.jpg",
     intro: [
       "A damaged garment does not always need to be replaced. Our repairs and restoration service gives new life to clothing you love — from zip replacements and button fixing to tear repairs and seam restoration.",
       "We use premium YKK zippers and professional-grade fastenings to ensure repairs that are durable, clean, and discreet.",
@@ -134,6 +138,7 @@ export const SERVICES: Service[] = [
     heading: "Made Precisely for You.",
     imageAlt:
       "Made-to-measure tailoring and body measurement consultation at Stitch In Time",
+    imageSrc: "/images/services/service-custom-tailoring.jpg",
     intro: [
       "For clients who require a made-to-measure garment or a higher level of fit precision, our custom tailoring service provides a fully personalised experience — from your first fitting through to a perfectly finished result.",
     ],
@@ -167,6 +172,7 @@ export const SERVICES: Service[] = [
     heading: "Precision Embroidery for Personal, Corporate & Promotional Use.",
     imageAlt:
       "Machine embroidery of a monogram on premium fabric at the Dubai Mall branch",
+    imageSrc: "/images/services/service-embroidery.jpg",
     intro: [
       "Our embroidery service uses specialist machines and materials to deliver clean, professional results — whether you are looking for a personalised gift, a corporate uniform programme, or branded promotional wear.",
       "Embroidery is available exclusively at our Dubai Mall branch (Lower Ground Floor, next to P2 Cinema Parking). For enquiries: embroidery@stitchintime.me",
@@ -213,6 +219,7 @@ export const SERVICES: Service[] = [
     heading: "Tailoring Solutions for Businesses, Brands & Fashion Partners.",
     imageAlt:
       "Corporate uniform fitting session for a business team at a Stitch In Time location",
+    imageSrc: "/images/services/service-business-services.jpg",
     intro: [
       "Stitch In Time works with fashion retailers, corporate clients, and hospitality businesses across the UAE to provide reliable, high-quality alteration and uniform services at scale. We offer dedicated account management, group fittings, and on-site visits — ensuring your team always presents at its best.",
     ],

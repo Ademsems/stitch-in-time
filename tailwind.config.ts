@@ -23,7 +23,7 @@ const config: Config = {
       colors: {
         // Brand palette (CSS variables defined in globals.css)
         cream: "hsl(var(--cream))", // #e8e2d8 — base canvas
-        taupe: "hsl(var(--taupe))", // #cbbeae — muted panels
+        taupe: "hsl(var(--taupe))", // #e2d5c7 — warm sand panels (was #cbbeae)
         espresso: "hsl(var(--espresso))", // #4a3428 — dark sections
         burgundy: "hsl(var(--burgundy))", // #6b1f2a — signature accent
         sky: "hsl(var(--sky))", // #97b3c8 — cool accent (sparing)

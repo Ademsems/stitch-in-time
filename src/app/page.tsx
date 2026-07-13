@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import Link from "next/link";
+import { resolveImageSrc } from "@/lib/resolveImage";
 import {
   Scissors,
   Sparkles,
@@ -111,7 +112,7 @@ export default function HomePage() {
       <section className="relative isolate flex min-h-[92vh] items-center overflow-hidden">
         <div className="absolute inset-0 -z-10">
           <SmartImage
-            src={null}
+            src={resolveImageSrc("/images/home/home-hero.jpg")}
             alt="Master tailor at Stitch In Time performing a precise clothing alteration in a Dubai atelier"
             priority
             label="Hero photography coming soon"
@@ -234,8 +235,8 @@ export default function HomePage() {
             {STEPS.map((step, i) => (
               <Reveal as="li" key={step.n} delay={i * 0.08}>
                 <div className="relative">
-                  {/* Taupe (not burgundy) for legibility on the espresso background — WCAG AA. */}
-                  <span className="font-serif text-5xl text-taupe">{step.n}</span>
+                  {/* Sky blue on espresso: ~5.5:1 — WCAG AA. */}
+                  <span className="font-serif text-5xl text-sky">{step.n}</span>
                   <h3 className="mt-3 font-serif text-xl text-cream">{step.title}</h3>
                   <p className="mt-2 font-sans text-sm leading-relaxed text-cream/70">
                     {step.copy}
@@ -281,7 +282,7 @@ export default function HomePage() {
                 >
                   <div className="relative aspect-[16/10] w-full">
                     <SmartImage
-                      src={null}
+                      src={resolveImageSrc(service.imageSrc)}
                       alt={service.imageAlt}
                       label="Image coming soon"
                       wrapperClassName="h-full w-full"
@@ -339,7 +340,7 @@ export default function HomePage() {
           <Reveal delay={0.1}>
             <div className="relative aspect-[4/5] w-full overflow-hidden rounded-md ring-1 ring-cream/20">
               <SmartImage
-                src={null}
+                src={resolveImageSrc("/images/home/home-guarantee-detail.jpg")}
                 alt="Detail of a hand-finished hem sewn with premium Gutermann thread"
                 label="Craft detail — image coming soon"
                 wrapperClassName="h-full w-full"

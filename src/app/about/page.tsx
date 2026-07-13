@@ -13,6 +13,7 @@ import {
   Check,
   X,
 } from "lucide-react";
+import { resolveImageSrc } from "@/lib/resolveImage";
 import { SmartImage } from "@/components/SmartImage";
 import { Reveal } from "@/components/Reveal";
 import { BookButton } from "@/components/BookButton";
@@ -156,7 +157,7 @@ export default function AboutPage() {
             <Reveal delay={0.1}>
               <div className="relative aspect-[4/5] w-full overflow-hidden rounded-md ring-1 ring-taupe/60 lg:sticky lg:top-28">
                 <SmartImage
-                  src={null}
+                  src={resolveImageSrc("/images/about/about-atelier.jpg")}
                   alt="The Stitch In Time atelier — tailors at work in a Dubai boutique"
                   label="Atelier photography coming soon"
                   wrapperClassName="h-full w-full"

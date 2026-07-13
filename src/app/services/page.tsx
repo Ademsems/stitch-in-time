@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { Check, Zap, ArrowRight } from "lucide-react";
+import { resolveImageSrc } from "@/lib/resolveImage";
 import { SmartImage } from "@/components/SmartImage";
 import { Reveal } from "@/components/Reveal";
 import { BookButton } from "@/components/BookButton";
@@ -153,7 +154,7 @@ export default function ServicesPage() {
                 >
                   <div className="relative aspect-[4/5] w-full overflow-hidden rounded-md ring-1 ring-taupe/60">
                     <SmartImage
-                      src={null}
+                      src={resolveImageSrc(service.imageSrc)}
                       alt={service.imageAlt}
                       label="Image coming soon"
                       wrapperClassName="h-full w-full"

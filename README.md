@@ -27,18 +27,21 @@ Defined as CSS variables in [`src/app/globals.css`](src/app/globals.css) and exp
 tokens in [`tailwind.config.ts`](tailwind.config.ts):
 
 - Cream Ivory `#e8e2d8` — base canvas
-- Taupe `#cbbeae` — muted panels
+- Warm Sand `#e2d5c7` — muted panels / secondary surface (Tailwind token: `taupe`)
 - Espresso `#4a3428` — dark section breaks
 - Burgundy `#6b1f2a` — **signature accent** (CTAs, hovers, highlights)
 - Sky Blue `#97b3c8` — cool accent (sparing)
 - Charcoal `#2b2b2b` — body ink
 
+The Tailwind token name remains `taupe` for consistency with existing class names; the
+CSS variable `--taupe` now resolves to Warm Sand `#e2d5c7` (updated from the previous `#cbbeae`).
+
 ### Contrast rule (burgundy vs dark)
-Burgundy `#6b1f2a` is the signature accent **only on light surfaces** (cream/taupe) —
+Burgundy `#6b1f2a` is the signature accent **only on light surfaces** (cream/warm sand) —
 buttons, hovers, links, eyebrow labels there stay burgundy. On **dark** backgrounds
-(espresso `#4a3428` / charcoal `#2b2b2b`) burgundy fails contrast, so any decorative
-burgundy element (numerals, icons, dividers) uses **Taupe `#cbbeae`** instead (e.g. the
-homepage "How Our Home Fitting Service Works" step numerals — now 6.4:1, WCAG AA).
+(espresso `#4a3428` / charcoal `#2b2b2b`) burgundy fails contrast. Any decorative
+numerals, icons, or dividers on dark backgrounds use **Sky Blue `#97b3c8`** instead (e.g.
+the homepage "How Our Home Fitting Service Works" step numerals — ~5.5:1, WCAG AA).
 CTAs on dark sections use the **cream** button variant (cream fill / espresso text) so
 they stay clearly actionable.
 
@@ -102,15 +105,20 @@ logo SVG once approved`). Replace the inner markup with the final SVG; the layou
 ### 2. Photography → real photos
 All images go through [`src/components/SmartImage.tsx`](src/components/SmartImage.tsx), a safe
 `next/image` wrapper. Where no photo exists yet it renders a **branded placeholder** (never a
-broken image, never an undefined `src` crash). To drop in a real image, pass one prop:
+broken image, never an undefined `src` crash).
 
-```tsx
-<SmartImage src="/photos/hero.jpg" alt="…descriptive alt…" />
-```
+**The code is already wired** — every image slot points at its final intended path via
+[`src/lib/resolveImage.ts`](src/lib/resolveImage.ts). To add a photo:
 
-Static placeholder assets (OG image, storefront) live in
-[`public/placeholders/`](public/placeholders). Real photos can go in `public/` and be referenced
-by `src`.
+1. Export the image as a JPG (or WebP).
+2. Name it **exactly** as specified in [`IMAGE-MANIFEST.md`](IMAGE-MANIFEST.md).
+3. Drop it into the correct `/public/images/` subfolder.
+4. Rebuild (`npm run build`) — it appears automatically. **No code change needed.**
+
+See [`IMAGE-MANIFEST.md`](IMAGE-MANIFEST.md) for the full shopping list with filenames,
+dimensions, art direction notes, and priority ranking for the client shoot.
+
+Static placeholder assets (OG image) live in [`public/placeholders/`](public/placeholders).
 
 ### 3. Booking → the 7jwzat page
 Every "Book Appointment" / "Book a Home Fitting" CTA site-wide routes through **one** handler in
@@ -174,8 +182,15 @@ src/
                   # BookingProvider/BookButton, Reveal, FaqSection, JsonLd,
                   # locations/ (BranchMap, LocationsExplorer), ui/ (button…)
   data/           # branches, services, faqs  (approved copy, verbatim)
-  lib/            # site config, jsonld builders, cn() util
-public/placeholders/   # branded placeholder + OG assets
+  lib/            # site config, jsonld builders, resolveImage, cn() util
+public/
+  images/         # client photography (see IMAGE-MANIFEST.md)
+    home/         # home-hero.jpg, home-guarantee-detail.jpg
+    services/     # service-alterations.jpg, service-repairs-restoration.jpg, …
+    about/        # about-atelier.jpg
+    locations/    # reserved for future branch/storefront photos
+  placeholders/   # branded placeholder + OG assets
+IMAGE-MANIFEST.md # photography shopping list for the client shoot
 ```
 
 ---
