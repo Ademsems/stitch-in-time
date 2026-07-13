@@ -307,8 +307,8 @@ export default function HomePage() {
         </div>
       </section>
 
-      {/* ———————————————————— Guarantee (burgundy break) ———————————————————— */}
-      <section className="section bg-burgundy text-cream">
+      {/* ———————————————————— Guarantee (espresso break) ———————————————————— */}
+      <section className="section bg-espresso text-cream">
         <div className="container grid items-center gap-12 lg:grid-cols-2">
           <Reveal>
             <ShieldCheck className="h-10 w-10 text-cream/90" />
@@ -400,8 +400,8 @@ export default function HomePage() {
       {/* ———————————————————— Home Fitting FAQs ———————————————————— */}
       <FaqSection faqs={faqs} heading="Home Fitting — Questions & Answers" eyebrow="Home Fitting" />
 
-      {/* ———————————————————— Final CTA ———————————————————— */}
-      <section className="section bg-espresso text-cream">
+      {/* ———————————————————— Final CTA (burgundy break) ———————————————————— */}
+      <section className="section bg-burgundy text-cream">
         <div className="container flex flex-col items-center text-center">
           <Reveal>
             <Clock className="mx-auto h-8 w-8 text-cream/70" />
