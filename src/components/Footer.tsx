@@ -1,90 +1,65 @@
 import Link from "next/link";
-import { Mail, MapPin, MessageCircle, Phone, Instagram, Facebook } from "lucide-react";
-import { Logo } from "@/components/Logo";
-import { NAV_LINKS, CONTACT, SITE, whatsappLink } from "@/lib/site";
+import { Mail, MapPin, MessageCircle, Phone } from "lucide-react";
+import { LogoImage } from "@/components/Logo";
+import { StripeBand } from "@/components/fx/StripeBand";
+import { NAV_LINKS, CONTACT, SITE, FEKRA, whatsappLink } from "@/lib/site";
 import { DUBAI_BRANCHES, ABU_DHABI_BRANCHES } from "@/data/branches";
+import { TAGLINE } from "@/lib/brand";
 
 export function Footer() {
   const year = new Date().getFullYear();
+  const link =
+    "inline-flex min-h-8 items-center gap-2 text-ivory/80 transition-colors hover:text-ivory";
 
   return (
-    <footer className="bg-espresso text-cream/85">
-      <div className="container grid gap-12 py-16 md:grid-cols-2 lg:grid-cols-4">
+    <footer data-theme="dark" className="bg-burgundy text-ivory/85">
+      <StripeBand tone="dark" />
+      <div className="container grid gap-14 py-16 md:grid-cols-2 lg:grid-cols-[1.3fr_0.8fr_1.2fr_1.2fr]">
         {/* Brand */}
-        <div className="lg:col-span-1">
-          <Logo tone="light" />
-          <p className="mt-5 max-w-xs text-sm leading-relaxed text-cream/70">
-            Expert clothing alterations, repairs, and home fitting across Dubai
-            and Abu Dhabi. Serving the UAE since {SITE.established}.
+        <div>
+          <Link href="/" aria-label="Stitch In Time — home" className="inline-block">
+            <LogoImage tone="light" />
+          </Link>
+          <p className="mt-8 max-w-xs font-serif text-3xl leading-[1.1] text-ivory">
+            {TAGLINE.lead} <em className="italic">{TAGLINE.accent}</em>
           </p>
-          <div className="mt-6 flex items-center gap-3">
-            <a
-              href="https://instagram.com"
-              target="_blank"
-              rel="noopener noreferrer"
-              aria-label="Stitch In Time on Instagram"
-              className="flex h-10 w-10 items-center justify-center rounded-full border border-cream/25 text-cream/80 transition-colors hover:border-cream hover:text-cream"
-            >
-              <Instagram className="h-4 w-4" />
-            </a>
-            <a
-              href="https://facebook.com"
-              target="_blank"
-              rel="noopener noreferrer"
-              aria-label="Stitch In Time on Facebook"
-              className="flex h-10 w-10 items-center justify-center rounded-full border border-cream/25 text-cream/80 transition-colors hover:border-cream hover:text-cream"
-            >
-              <Facebook className="h-4 w-4" />
-            </a>
-            {/* SOCIAL PLACEHOLDER — swap hrefs for the client's real profiles. */}
-          </div>
+          <p className="mt-5 max-w-xs text-sm leading-relaxed text-ivory/70">
+            Expert clothing alterations, repairs and home fitting across Dubai and Abu Dhabi.
+            Serving the UAE since {SITE.established}.
+          </p>
         </div>
 
         {/* Explore */}
         <nav aria-label="Footer">
-          <h2 className="font-subheader text-xs uppercase tracking-luxe text-cream/50">
-            Explore
-          </h2>
-          <ul className="mt-5 space-y-3 text-sm">
-            {NAV_LINKS.map((link) => (
-              <li key={link.href}>
-                <Link
-                  href={link.href}
-                  className="text-cream/80 transition-colors hover:text-cream"
-                >
-                  {link.label}
+          <h2 className="eyebrow !text-sky">Explore</h2>
+          <ul className="mt-5 space-y-1.5 text-sm">
+            {NAV_LINKS.map((l) => (
+              <li key={l.href}>
+                <Link href={l.href} className={link}>
+                  {l.label}
                 </Link>
               </li>
             ))}
           </ul>
         </nav>
 
-        {/* Branch summary */}
+        {/* Branches */}
         <div>
-          <h2 className="font-subheader text-xs uppercase tracking-luxe text-cream/50">
-            11 UAE Locations
-          </h2>
-          <div className="mt-5 space-y-4 text-sm text-cream/75">
+          <h2 className="eyebrow !text-sky">11 UAE Locations</h2>
+          <div className="mt-5 space-y-5 text-sm text-ivory/75">
             <div>
-              <p className="mb-1 flex items-center gap-1.5 font-medium text-cream/90">
-                <MapPin className="h-3.5 w-3.5" /> Dubai — {DUBAI_BRANCHES.length}
+              <p className="mb-1 flex items-center gap-1.5 text-ivory">
+                <MapPin className="h-3.5 w-3.5" aria-hidden /> Dubai — {DUBAI_BRANCHES.length}
               </p>
-              <p className="leading-relaxed">
-                {DUBAI_BRANCHES.map((b) => b.name).join(" · ")}
-              </p>
+              <p className="leading-relaxed">{DUBAI_BRANCHES.map((b) => b.name).join(" · ")}</p>
             </div>
             <div>
-              <p className="mb-1 flex items-center gap-1.5 font-medium text-cream/90">
-                <MapPin className="h-3.5 w-3.5" /> Abu Dhabi — {ABU_DHABI_BRANCHES.length}
+              <p className="mb-1 flex items-center gap-1.5 text-ivory">
+                <MapPin className="h-3.5 w-3.5" aria-hidden /> Abu Dhabi — {ABU_DHABI_BRANCHES.length}
               </p>
-              <p className="leading-relaxed">
-                {ABU_DHABI_BRANCHES.map((b) => b.name).join(" · ")}
-              </p>
+              <p className="leading-relaxed">{ABU_DHABI_BRANCHES.map((b) => b.name).join(" · ")}</p>
             </div>
-            <Link
-              href="/locations"
-              className="inline-block text-cream underline underline-offset-4 hover:text-taupe"
-            >
+            <Link href="/locations" className="link-stitch inline-block text-ivory">
               View all branches &amp; map
             </Link>
           </div>
@@ -92,56 +67,35 @@ export function Footer() {
 
         {/* Contact */}
         <div>
-          <h2 className="font-subheader text-xs uppercase tracking-luxe text-cream/50">
-            Contact
-          </h2>
-          <ul className="mt-5 space-y-3 text-sm">
+          <h2 className="eyebrow !text-sky">Contact</h2>
+          <ul className="mt-5 space-y-1.5 text-sm">
             <li>
-              <a
-                href={whatsappLink(CONTACT.whatsappDubai)}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="flex items-center gap-2 text-cream/80 transition-colors hover:text-cream"
-              >
-                <MessageCircle className="h-4 w-4 shrink-0" />
+              <a href={whatsappLink(CONTACT.whatsappDubai)} target="_blank" rel="noopener noreferrer" className={link}>
+                <MessageCircle className="h-4 w-4 shrink-0" aria-hidden />
                 WhatsApp Dubai — {CONTACT.whatsappDubaiDisplay}
               </a>
             </li>
             <li>
-              <a
-                href={whatsappLink(CONTACT.whatsappAbuDhabi)}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="flex items-center gap-2 text-cream/80 transition-colors hover:text-cream"
-              >
-                <MessageCircle className="h-4 w-4 shrink-0" />
+              <a href={whatsappLink(CONTACT.whatsappAbuDhabi)} target="_blank" rel="noopener noreferrer" className={link}>
+                <MessageCircle className="h-4 w-4 shrink-0" aria-hidden />
                 WhatsApp Abu Dhabi — {CONTACT.whatsappAbuDhabiDisplay}
               </a>
             </li>
             <li>
-              <a
-                href={`tel:${CONTACT.generalPhoneDial}`}
-                className="flex items-center gap-2 text-cream/80 transition-colors hover:text-cream"
-              >
-                <Phone className="h-4 w-4 shrink-0" />
+              <a href={`tel:${CONTACT.generalPhoneDial}`} className={link}>
+                <Phone className="h-4 w-4 shrink-0" aria-hidden />
                 {CONTACT.generalPhone}
               </a>
             </li>
             <li>
-              <a
-                href={`mailto:${CONTACT.homeEmail}`}
-                className="flex items-center gap-2 text-cream/80 transition-colors hover:text-cream"
-              >
-                <Mail className="h-4 w-4 shrink-0" />
+              <a href={`mailto:${CONTACT.homeEmail}`} className={link}>
+                <Mail className="h-4 w-4 shrink-0" aria-hidden />
                 {CONTACT.homeEmail}
               </a>
             </li>
             <li>
-              <a
-                href={`mailto:${CONTACT.embroideryEmail}`}
-                className="flex items-center gap-2 text-cream/80 transition-colors hover:text-cream"
-              >
-                <Mail className="h-4 w-4 shrink-0" />
+              <a href={`mailto:${CONTACT.embroideryEmail}`} className={link}>
+                <Mail className="h-4 w-4 shrink-0" aria-hidden />
                 {CONTACT.embroideryEmail}
               </a>
             </li>
@@ -149,14 +103,21 @@ export function Footer() {
         </div>
       </div>
 
-      <div className="border-t border-cream/15">
-        <div className="container flex flex-col items-center justify-between gap-3 py-6 text-xs text-cream/55 sm:flex-row">
+      <div className="border-t border-ivory/15">
+        <div className="container flex flex-col items-center justify-between gap-3 py-6 text-xs text-ivory/70 sm:flex-row">
           <p>
             © {year} {SITE.legalName}. All rights reserved.
           </p>
           <p>
-            Website by{" "}
-            <span className="text-cream/75">Fekra Communications</span>
+            Powered by{" "}
+            <a
+              href={FEKRA.url}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="link-stitch text-ivory"
+            >
+              {FEKRA.name}
+            </a>
           </p>
         </div>
       </div>

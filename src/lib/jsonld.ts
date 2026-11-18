@@ -95,6 +95,8 @@ export function organizationSchema() {
     name: SITE.name,
     legalName: SITE.legalName,
     url: SITE.url,
+    logo: `${SITE.url}/branding/StitchInTime-LOGO.png`,
+    slogan: "A stitch in time saves nine.",
     foundingDate: String(SITE.established),
     description:
       "UAE clothing alterations and tailoring house offering alterations, repairs, custom tailoring, embroidery and a home fitting service across Dubai and Abu Dhabi.",
@@ -119,7 +121,7 @@ export function localBusinessSchema(branch: Branch) {
     "@id": `${SITE.url}/locations#${branch.slug}`,
     name: `${SITE.name} — ${branch.name}`,
     parentOrganization: { "@id": ORG_ID },
-    image: `${SITE.url}/placeholders/storefront.svg`,
+    image: `${SITE.url}/branding/StitchInTime-LOGO.png`,
     url: `${SITE.url}/locations`,
     telephone: branch.phone,
     priceRange: "AED 20 – AED 200+",
@@ -153,6 +155,28 @@ export function serviceSchema() {
     areaServed: ["Dubai", "Abu Dhabi"],
     description: s.intro[0],
   }));
+}
+
+/** The home fitting service — the site's primary conversion offer. */
+export function homeFittingSchema() {
+  return {
+    "@context": "https://schema.org",
+    "@type": "Service",
+    "@id": `${SITE.url}/home-fitting#service`,
+    name: "Home Fitting Service",
+    serviceType: "Mobile tailoring and clothing alterations at home",
+    provider: { "@id": ORG_ID },
+    areaServed: ["Dubai", "Abu Dhabi"],
+    description:
+      "A professional tailor visits your home in Dubai or Abu Dhabi for private fittings, precise measurements and expert alterations. No call-out fee; minimum order AED 300. Garments are altered in our workshop and returned at an agreed date and time.",
+    termsOfService: `${SITE.url}/about#guarantees`,
+    offers: {
+      "@type": "Offer",
+      priceCurrency: "AED",
+      description: "No call-out fee. Minimum order value AED 300.",
+      eligibleRegion: ["Dubai", "Abu Dhabi"],
+    },
+  };
 }
 
 export function faqSchema(faqs: Faq[]) {

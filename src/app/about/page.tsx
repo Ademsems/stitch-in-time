@@ -13,16 +13,20 @@ import {
   Check,
   X,
 } from "lucide-react";
-import { resolveImageSrc } from "@/lib/resolveImage";
 import { SmartImage } from "@/components/SmartImage";
-import { Reveal } from "@/components/Reveal";
-import { BookButton } from "@/components/BookButton";
-import { FindBranchButton } from "@/components/FindBranchButton";
+import { Reveal } from "@/components/fx/Reveal";
+import { SplitHeading } from "@/components/fx/SplitHeading";
+import { RiseHeading } from "@/components/fx/RiseHeading";
+import { StripeBand } from "@/components/fx/StripeBand";
 import { FaqSection } from "@/components/FaqSection";
 import { JsonLd } from "@/components/JsonLd";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Values } from "@/components/sections/Values";
+import { PillarCircles } from "@/components/sections/StoryPillars";
+import { ClosingCta } from "@/components/sections/HomeSections";
 import { faqsFor } from "@/data/faqs";
 import { faqSchema, breadcrumbSchema, organizationSchema } from "@/lib/jsonld";
+import { resolveImageSrc } from "@/lib/resolveImage";
+import { BRAND_STORY, MISSION, VISION, POSITIONING } from "@/lib/brand";
 
 export const metadata: Metadata = {
   title: "About Stitch In Time | Tailoring & Alterations UAE Since 2008",
@@ -41,7 +45,7 @@ const DIFFERENTIATORS = [
   { icon: Award, text: "18 years of expertise in tailoring and garment care across the UAE" },
   { icon: MapPin, text: "11 premium mall locations — the largest network of its kind in Dubai and Abu Dhabi" },
   { icon: HomeIcon, text: "Home fitting service with no call-out fee — professional tailoring at your door" },
-  { icon: Sparkles, text: "Premium materials as standard — Gutermann, Prym, Union Knopf" },
+  { icon: Sparkles, text: "Premium materials as standard — Gütermann, Prym, Union Knopf" },
   { icon: Gem, text: "Experienced in high-end, designer, and luxury garment alterations" },
   { icon: ShieldCheck, text: "Full workmanship guarantee on every service" },
   { icon: Zap, text: "Express service available for urgent alterations" },
@@ -111,194 +115,197 @@ export default function AboutPage() {
         ]}
       />
 
-      {/* ———————————————————— Brand story ———————————————————— */}
-      <section className="bg-cream">
-        <div className="container py-20 md:py-28">
-          <div className="grid items-center gap-12 lg:grid-cols-2 lg:gap-16">
-            <Reveal>
-              <p className="eyebrow">Our Story</p>
-              <h1 className="mt-4 font-serif text-4xl leading-tight text-espresso md:text-6xl">
-                Founded in 2008, on a <em className="italic">Simple Belief.</em>
-              </h1>
-              <div className="mt-6 space-y-5 font-sans text-base leading-relaxed text-ink/80">
-                <p className="font-serif text-xl italic text-espresso/90">
-                  Every garment deserves to fit the person wearing it.
-                </p>
-                <p>
-                  What began as a specialist tailoring and alterations service has
-                  grown, over 18 years, into one of the UAE&rsquo;s most trusted
-                  names in clothing care — with 11 mall boutiques across Dubai and
-                  Abu Dhabi, a growing home fitting service, and a client base that
-                  keeps returning because of the quality they experience and the
-                  confidence they leave with.
-                </p>
-                <p>
-                  We work across all garment types and all occasions — from everyday
-                  wardrobe adjustments to designer suit tailoring, bridal gown
-                  fittings, and corporate uniform programmes. The level of care and
-                  precision is the same regardless of the garment, the occasion, or
-                  the price of the piece.
-                </p>
-                <p>
-                  Our tailors use premium materials as standard. Gutermann thread
-                  from Germany. Prym fastenings. Union Knopf buttons. These are not
-                  premium upgrades — they are simply the materials we work with,
-                  because we believe the quality inside a garment matters as much as
-                  the quality anyone can see.
-                </p>
-                <p>
-                  Over 18 years, we have become the trusted choice for thousands of
-                  residents, families, professionals, and fashion brands across the
-                  UAE. Our clients return not because we are the most visible, but
-                  because we deliver on what we promise — a better fit, every time.
-                </p>
-              </div>
-            </Reveal>
-            <Reveal delay={0.1}>
-              <div className="relative aspect-[4/5] w-full overflow-hidden rounded-md ring-1 ring-taupe/60 lg:sticky lg:top-28">
-                <SmartImage
-                  src={resolveImageSrc("/images/about/about-atelier.jpg")}
-                  alt="The Stitch In Time atelier — tailors at work in a Dubai boutique"
-                  label="Atelier photography coming soon"
-                  wrapperClassName="h-full w-full"
-                />
-              </div>
-            </Reveal>
+      {/* ———— Brand story ———— */}
+      <section className="bg-ivory">
+        <div className="container grid items-start gap-14 py-16 md:py-24 lg:grid-cols-2 lg:gap-24">
+          <div>
+            <p className="eyebrow hero-in" style={{ ["--d" as string]: "0.05s" }}>
+              Our Story
+            </p>
+            <RiseHeading className="mt-5 text-5xl leading-[1.02] md:text-7xl">
+              Founded in 2008, on a <em className="italic">simple belief.</em>
+            </RiseHeading>
+            <div
+              className="hero-in mt-8 space-y-5 text-base leading-relaxed text-espresso/90"
+              style={{ ["--d" as string]: "0.5s" }}
+            >
+              <p className="font-serif text-3xl leading-snug text-burgundy">
+                Every garment deserves to fit the person wearing it.
+              </p>
+              <p>{BRAND_STORY}</p>
+            </div>
+          </div>
+          <div className="hero-circle lg:sticky lg:top-32">
+            <div className="relative aspect-[4/5] w-full overflow-hidden rounded-t-[999px] ring-1 ring-burgundy/15">
+              <SmartImage
+                src={resolveImageSrc("/images/about/about-atelier.jpg")}
+                alt="Spools of Gütermann thread in cream, taupe, espresso, burgundy and sky blue — the materials at the heart of Stitch In Time"
+                label="Atelier photography"
+                sizes="(max-width: 1024px) 90vw, 560px"
+              />
+            </div>
           </div>
         </div>
       </section>
 
-      {/* ———————————————————— Differentiators ———————————————————— */}
-      <section className="section bg-taupe/25 border-y border-taupe/60">
-        <div className="container">
-          <Reveal className="mx-auto max-w-2xl text-center">
-            <p className="eyebrow">Our Differentiators</p>
-            <h2 className="mt-3 text-3xl md:text-4xl text-espresso">
-              What Sets Us Apart.
-            </h2>
-            <div className="mx-auto mt-5 hairline" />
+      {/* ———— Mission & vision ———— */}
+      <section data-theme="dark" className="relative overflow-hidden bg-burgundy text-ivory">
+        <StripeBand tone="dark" />
+        <div className="container section grid gap-14 md:grid-cols-2 md:gap-20">
+          <Reveal variant="left">
+            <p className="eyebrow">Mission</p>
+            <p className="mt-5 font-serif text-3xl leading-snug text-ivory md:text-4xl">{MISSION}</p>
           </Reveal>
-          <div className="mt-14 grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
+          <Reveal variant="right" delay={0.1}>
+            <p className="eyebrow">Vision</p>
+            <p className="mt-5 font-serif text-3xl leading-snug text-ivory md:text-4xl">{VISION}</p>
+          </Reveal>
+        </div>
+      </section>
+
+      <Values tone="cream" />
+
+      {/* ———— Pillars ———— */}
+      <section className="section bg-ivory">
+        <div className="container">
+          <div className="mx-auto max-w-2xl text-center">
+            <Reveal>
+              <p className="eyebrow">Our Pillars</p>
+            </Reveal>
+            <SplitHeading className="mt-4 text-4xl leading-[1.05] md:text-6xl">
+              The four pillars of <em className="italic">our craft.</em>
+            </SplitHeading>
+          </div>
+          <PillarCircles className="mt-14 lg:mt-20" />
+        </div>
+      </section>
+
+      {/* ———— Positioning ———— */}
+      <section data-theme="dark" className="section bg-ink text-ivory">
+        <div className="container max-w-4xl text-center">
+          <Reveal>
+            <p className="eyebrow">Positioning</p>
+          </Reveal>
+          <Reveal delay={0.1}>
+            <p className="mt-6 font-serif text-[1.7rem] leading-snug text-ivory md:text-4xl">
+              {POSITIONING}
+            </p>
+          </Reveal>
+        </div>
+      </section>
+
+      {/* ———— Differentiators ———— */}
+      <section className="section bg-cream">
+        <div className="container">
+          <div className="mx-auto max-w-2xl text-center">
+            <Reveal>
+              <p className="eyebrow">Our Differentiators</p>
+            </Reveal>
+            <SplitHeading className="mt-4 text-4xl leading-[1.05] md:text-6xl">
+              What sets us <em className="italic">apart.</em>
+            </SplitHeading>
+          </div>
+          <ul className="mt-14 grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
             {DIFFERENTIATORS.map((item, i) => (
-              <Reveal as="article" key={item.text} delay={(i % 4) * 0.06}>
-                <div className="flex h-full flex-col rounded-md bg-cream/70 p-6 ring-1 ring-taupe/50">
-                  <item.icon className="h-6 w-6 text-burgundy" />
-                  <p className="mt-4 font-sans text-sm leading-relaxed text-ink/80">
-                    {item.text}
-                  </p>
+              <Reveal as="li" key={item.text} delay={(i % 4) * 0.07}>
+                <div className="flex h-full flex-col rounded-md bg-ivory p-7 ring-1 ring-burgundy/10 transition-shadow duration-500 hover:shadow-[0_18px_40px_-26px_rgb(var(--burgundy)/0.6)]">
+                  <item.icon className="h-7 w-7 text-burgundy" aria-hidden />
+                  <p className="mt-5 text-sm leading-relaxed text-espresso/90">{item.text}</p>
                 </div>
               </Reveal>
             ))}
-          </div>
+          </ul>
         </div>
       </section>
 
-      {/* ———————————————————— Guarantees ———————————————————— */}
-      <section id="guarantees" className="section scroll-mt-24 bg-cream">
+      {/* ———— Guarantees ———— */}
+      <section id="guarantees" className="section scroll-mt-28 bg-ivory">
         <div className="container">
-          <Reveal className="mx-auto max-w-2xl text-center">
-            <ShieldCheck className="mx-auto h-9 w-9 text-burgundy" />
-            <p className="eyebrow mt-4">Our Guarantees</p>
-            <h2 className="mt-3 text-3xl md:text-4xl text-espresso">
-              Confidence, Built Into Every Order.
-            </h2>
-            <p className="mx-auto mt-5 max-w-xl font-sans text-base leading-relaxed text-ink/75">
-              Every alteration at Stitch In Time is backed in writing. Not
-              satisfied? We re-adjust at no extra cost.
-            </p>
-          </Reveal>
+          <div className="mx-auto max-w-2xl text-center">
+            <Reveal>
+              <ShieldCheck className="mx-auto h-9 w-9 text-burgundy" aria-hidden />
+              <p className="eyebrow mt-4">Our Guarantees</p>
+            </Reveal>
+            <SplitHeading className="mt-4 text-4xl leading-[1.05] md:text-6xl">
+              Confidence, built into <em className="italic">every order.</em>
+            </SplitHeading>
+            <Reveal delay={0.1}>
+              <p className="mx-auto mt-6 max-w-xl text-base leading-relaxed text-espresso/85">
+                Every alteration at Stitch In Time is backed in writing. Not satisfied? We
+                re-adjust at no extra cost.
+              </p>
+            </Reveal>
+          </div>
 
-          <div className="mt-14 grid gap-6 lg:grid-cols-3">
+          <ul className="mt-14 grid gap-6 lg:grid-cols-3">
             {GUARANTEES.map((g, i) => (
-              <Reveal key={g.title} delay={i * 0.08}>
-                <Card className="h-full bg-cream">
-                  <CardHeader>
-                    <span className="flex h-12 w-12 items-center justify-center rounded-full bg-burgundy/10 text-burgundy">
-                      <g.icon className="h-6 w-6" />
-                    </span>
-                    <CardTitle className="mt-3">{g.title}</CardTitle>
-                  </CardHeader>
-                  <CardContent className="space-y-3">
+              <Reveal as="li" key={g.title} delay={i * 0.08}>
+                <div className="h-full rounded-md border border-burgundy/15 bg-cream p-8">
+                  <span className="flex h-12 w-12 items-center justify-center rounded-full bg-burgundy text-ivory">
+                    <g.icon className="h-5 w-5" aria-hidden />
+                  </span>
+                  <h3 className="mt-5 font-serif text-3xl">{g.title}</h3>
+                  <div className="mt-4 space-y-3">
                     {g.body.map((p) => (
-                      <p key={p.slice(0, 20)} className="text-sm leading-relaxed text-ink/75">
+                      <p key={p.slice(0, 20)} className="text-sm leading-relaxed text-espresso/90">
                         {p}
                       </p>
                     ))}
-                  </CardContent>
-                </Card>
+                  </div>
+                </div>
               </Reveal>
             ))}
-          </div>
+          </ul>
 
-          {/* Exclusions + Terms */}
-          <div className="mt-10 grid gap-6 lg:grid-cols-2">
+          <div className="mt-8 grid gap-6 lg:grid-cols-2">
             <Reveal>
-              <Card className="h-full border-burgundy/30 bg-burgundy/5">
-                <CardHeader>
-                  <CardTitle className="flex items-center gap-2">
-                    <X className="h-5 w-5 text-burgundy" />
-                    Important Exclusions
-                  </CardTitle>
-                </CardHeader>
-                <CardContent>
-                  <p className="mb-3 text-sm text-ink/70">Our guarantees do not apply to:</p>
-                  <ul className="space-y-2.5">
-                    {EXCLUSIONS.map((e) => (
-                      <li key={e} className="flex items-start gap-2.5 text-sm leading-relaxed text-ink/80">
-                        <X className="mt-0.5 h-4 w-4 shrink-0 text-burgundy" />
-                        {e}
-                      </li>
-                    ))}
-                  </ul>
-                </CardContent>
-              </Card>
+              <div className="h-full rounded-md border border-burgundy/30 bg-burgundy/[0.04] p-8">
+                <h3 className="flex items-center gap-2 font-serif text-3xl">
+                  <X className="h-5 w-5 text-burgundy" aria-hidden />
+                  Important Exclusions
+                </h3>
+                <p className="mb-4 mt-3 text-sm text-espresso/80">Our guarantees do not apply to:</p>
+                <ul className="space-y-3">
+                  {EXCLUSIONS.map((e) => (
+                    <li
+                      key={e}
+                      className="flex items-start gap-3 text-sm leading-relaxed text-espresso/90"
+                    >
+                      <X className="mt-0.5 h-4 w-4 shrink-0 text-burgundy" aria-hidden />
+                      {e}
+                    </li>
+                  ))}
+                </ul>
+              </div>
             </Reveal>
-
             <Reveal delay={0.08}>
-              <Card className="h-full bg-cream">
-                <CardHeader>
-                  <CardTitle className="flex items-center gap-2">
-                    <Check className="h-5 w-5 text-burgundy" />
-                    Terms &amp; Conditions
-                  </CardTitle>
-                </CardHeader>
-                <CardContent>
-                  <ul className="space-y-2.5">
-                    {TERMS.map((t) => (
-                      <li key={t} className="flex items-start gap-2.5 text-sm leading-relaxed text-ink/80">
-                        <Check className="mt-0.5 h-4 w-4 shrink-0 text-burgundy/70" />
-                        {t}
-                      </li>
-                    ))}
-                  </ul>
-                </CardContent>
-              </Card>
+              <div className="h-full rounded-md border border-burgundy/15 bg-ivory p-8">
+                <h3 className="flex items-center gap-2 font-serif text-3xl">
+                  <Check className="h-5 w-5 text-burgundy" aria-hidden />
+                  Terms &amp; Conditions
+                </h3>
+                <ul className="mt-5 space-y-3">
+                  {TERMS.map((t) => (
+                    <li
+                      key={t}
+                      className="flex items-start gap-3 text-sm leading-relaxed text-espresso/90"
+                    >
+                      <Check className="mt-0.5 h-4 w-4 shrink-0 text-burgundy" aria-hidden />
+                      {t}
+                    </li>
+                  ))}
+                </ul>
+              </div>
             </Reveal>
           </div>
         </div>
       </section>
 
-      {/* ———————————————————— About FAQs ———————————————————— */}
-      <FaqSection faqs={faqs} heading="About Stitch In Time — FAQs" eyebrow="Good to Know" />
+      <FaqSection faqs={faqs} heading="About Stitch In Time — FAQs" eyebrow="Good to Know" tone="cream" />
 
-      {/* ———————————————————— CTA ———————————————————— */}
-      <section className="section bg-espresso text-cream">
-        <div className="container flex flex-col items-center text-center">
-          <Reveal>
-            <h2 className="text-3xl md:text-5xl text-cream">
-              Experience the Difference.
-            </h2>
-            <p className="mx-auto mt-5 max-w-xl font-sans text-lg leading-relaxed text-cream/80">
-              Book a home fitting or visit any of our 11 mall boutiques across
-              Dubai and Abu Dhabi.
-            </p>
-            <div className="mt-9 flex flex-col justify-center gap-3 sm:flex-row">
-              <BookButton label="Book a Home Fitting" variant="cream" />
-              <FindBranchButton variant="onDark" />
-            </div>
-          </Reveal>
-        </div>
-      </section>
+      <ClosingCta heading="Experience the difference.">
+        Book a home fitting or visit any of our 11 mall boutiques across Dubai and Abu Dhabi.
+      </ClosingCta>
     </>
   );
 }

@@ -44,6 +44,9 @@ export function whatsappLink(number: string, message?: string) {
 export const NAV_LINKS = [
   { href: "/", label: "Home" },
   { href: "/services", label: "Services" },
+  { href: "/home-fitting", label: "Home Fitting" },
   { href: "/locations", label: "Locations" },
   { href: "/about", label: "About" },
 ] as const;
+
+export const FEKRA = { name: "Fekra Communications", url: "https://fekracomms.com/" } as const;

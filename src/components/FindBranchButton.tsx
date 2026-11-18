@@ -4,7 +4,7 @@ import { Button, type ButtonProps } from "@/components/ui/button";
 
 /** Secondary CTA used alongside "Book" — routes to the Locations page. */
 export function FindBranchButton({
-  label = "Find Your Nearest Branch",
+  label = "Find a Branch",
   variant = "outline",
   size = "lg",
   withIcon = true,
@@ -16,7 +16,7 @@ export function FindBranchButton({
 }) {
   return (
     <Button asChild variant={variant} size={size}>
-      <Link href="/locations">
+      <Link href="/locations" data-cursor="Map">
         {withIcon && <MapPin className="h-4 w-4" aria-hidden />}
         {label}
       </Link>

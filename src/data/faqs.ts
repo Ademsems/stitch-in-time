@@ -7,7 +7,7 @@
  * matching FAQPage JSON-LD block.
  */
 
-export type FaqPage = "home" | "services" | "locations" | "about";
+export type FaqPage = "home" | "home-fitting" | "services" | "locations" | "about";
 
 export interface Faq {
   question: string;
@@ -93,6 +93,38 @@ export const FAQS: Faq[] = [
     question: "What is your satisfaction guarantee?",
     answer:
       "If you are not fully satisfied with your alteration, we will re-adjust your garment at no additional cost. All hems are also covered for the lifetime of the garment under our hem guarantee. Claims must be submitted within four weeks of collection.",
+  },
+
+  // ————— Book a Home Fitting page (verbatim from the content doc) —————
+  {
+    page: "home-fitting",
+    question: "Is there a call-out fee for the home fitting service?",
+    answer:
+      "No. There is no call-out fee for the Stitch In Time home fitting service. A minimum order value of AED 300 applies.",
+  },
+  {
+    page: "home-fitting",
+    question: "How far in advance do I need to book?",
+    answer:
+      "We recommend booking at least 48 hours in advance. Same-day or next-day visits may be available subject to tailor availability in your area.",
+  },
+  {
+    page: "home-fitting",
+    question: "What areas do you cover?",
+    answer:
+      "We cover Dubai and Abu Dhabi in full. If you are located in another emirate, please select 'Other Emirate' during booking and we will confirm availability.",
+  },
+  {
+    page: "home-fitting",
+    question: "Can I request a female tailor?",
+    answer:
+      "Yes. You can specify your preference during the booking process and we will do our best to accommodate your request.",
+  },
+  {
+    page: "home-fitting",
+    question: "What happens after the tailor visits?",
+    answer:
+      "Your garments are taken to our workshop for alteration. They are returned to your home at the date and time agreed during the visit.",
   },
 
   // ————— Walk-ins & coverage (Locations page) —————

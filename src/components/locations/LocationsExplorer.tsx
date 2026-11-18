@@ -3,234 +3,331 @@
 import * as React from "react";
 import dynamic from "next/dynamic";
 import type L from "leaflet";
-import { Maximize2, Minimize2, MapPin, Phone, Clock, Navigation } from "lucide-react";
-import {
-  DUBAI_BRANCHES,
-  ABU_DHABI_BRANCHES,
-  directionsUrl,
-  telHref,
-  type Branch,
-} from "@/data/branches";
+import { LocateFixed, Maximize2, Minimize2, Navigation, Phone, Clock } from "lucide-react";
+import { BRANCHES, directionsUrl, telHref, type Branch, type Emirate } from "@/data/branches";
 import { cn } from "@/lib/utils";
 
-// Leaflet must not run on the server — load the map client-side only.
 const BranchMap = dynamic(() => import("./BranchMap"), {
   ssr: false,
   loading: () => (
-    <div className="flex h-full w-full items-center justify-center bg-taupe/40">
-      <span className="font-sans text-sm uppercase tracking-luxe text-espresso/60">
-        Loading map…
-      </span>
+    <div className="flex h-full w-full items-center justify-center bg-cream font-subheader text-[0.66rem] uppercase tracking-luxe text-burgundy">
+      Loading map…
     </div>
   ),
 });
 
+type Filter = "All" | Emirate;
+
+function haversineKm(a: [number, number], b: [number, number]) {
+  const R = 6371;
+  const toRad = (d: number) => (d * Math.PI) / 180;
+  const dLat = toRad(b[0] - a[0]);
+  const dLng = toRad(b[1] - a[1]);
+  const x =
+    Math.sin(dLat / 2) ** 2 +
+    Math.cos(toRad(a[0])) * Math.cos(toRad(b[0])) * Math.sin(dLng / 2) ** 2;
+  return 2 * R * Math.asin(Math.sqrt(x));
+}
+
 export function LocationsExplorer() {
-  const [selectedSlug, setSelectedSlug] = React.useState<string | null>(null);
+  const [selected, setSelected] = React.useState<string | null>(null);
+  const [filter, setFilter] = React.useState<Filter>("All");
   const [expanded, setExpanded] = React.useState(false);
+  const [userPos, setUserPos] = React.useState<[number, number] | null>(null);
+  const [status, setStatus] = React.useState<string>("");
+  const [locating, setLocating] = React.useState(false);
 
-  const markerRefs = React.useRef<Record<string, L.Marker | null>>({});
+  const markers = React.useRef(new Map<string, L.Marker>());
   const mapRef = React.useRef<L.Map | null>(null);
+  const shell = React.useRef<HTMLDivElement>(null);
+  const closeBtn = React.useRef<HTMLButtonElement>(null);
+  const itemRefs = React.useRef(new Map<string, HTMLLIElement>());
 
-  const registerMarker = React.useCallback((slug: string, marker: L.Marker | null) => {
-    markerRefs.current[slug] = marker;
+  const registerMarker = React.useCallback((slug: string, m: L.Marker | null) => {
+    if (m) markers.current.set(slug, m);
+    else markers.current.delete(slug);
+  }, []);
+  const registerMap = React.useCallback((m: L.Map) => {
+    mapRef.current = m;
   }, []);
 
-  const registerMap = React.useCallback((map: L.Map) => {
-    mapRef.current = map;
-  }, []);
+  const distances = React.useMemo(() => {
+    const d = new Map<string, number>();
+    if (userPos) BRANCHES.forEach((b) => d.set(b.slug, haversineKm(userPos, [b.lat, b.lng])));
+    return d;
+  }, [userPos]);
 
-  const handleSelect = React.useCallback((slug: string) => {
-    setSelectedSlug(slug);
-    // Open the matching popup once the map has flown to it.
-    const marker = markerRefs.current[slug];
-    if (marker) {
-      window.setTimeout(() => marker.openPopup(), 850);
+  const nearestSlug = React.useMemo(() => {
+    if (!userPos) return null;
+    let best: string | null = null;
+    let min = Infinity;
+    distances.forEach((v, k) => {
+      if (v < min) {
+        min = v;
+        best = k;
+      }
+    });
+    return best;
+  }, [distances, userPos]);
+
+  const list = React.useMemo(() => {
+    const base = BRANCHES.filter((b) => filter === "All" || b.emirate === filter);
+    if (!userPos) return base;
+    return [...base].sort((a, b) => (distances.get(a.slug) ?? 0) - (distances.get(b.slug) ?? 0));
+  }, [filter, userPos, distances]);
+
+  const select = React.useCallback((slug: string, fromMap = false) => {
+    setSelected(slug);
+    window.setTimeout(() => markers.current.get(slug)?.openPopup(), 700);
+    if (fromMap) {
+      itemRefs.current.get(slug)?.scrollIntoView({ block: "nearest", behavior: "smooth" });
     }
   }, []);
 
-  // Close fullscreen on Escape.
+  const locate = () => {
+    if (!("geolocation" in navigator)) {
+      setStatus("Your browser doesn’t support location. Browse the branches below instead.");
+      return;
+    }
+    setLocating(true);
+    setStatus("Finding your location…");
+    navigator.geolocation.getCurrentPosition(
+      (pos) => {
+        const here: [number, number] = [pos.coords.latitude, pos.coords.longitude];
+        setUserPos(here);
+        setFilter("All");
+        let best = BRANCHES[0];
+        let min = Infinity;
+        for (const b of BRANCHES) {
+          const d = haversineKm(here, [b.lat, b.lng]);
+          if (d < min) {
+            min = d;
+            best = b;
+          }
+        }
+        setSelected(best.slug);
+        window.setTimeout(() => markers.current.get(best.slug)?.openPopup(), 1800);
+        setStatus(`Nearest branch: ${best.name} — about ${min < 10 ? min.toFixed(1) : Math.round(min)} km away.`);
+        setLocating(false);
+      },
+      (err) => {
+        setLocating(false);
+        setStatus(
+          err.code === err.PERMISSION_DENIED
+            ? "Location permission was declined — no problem, all branches are listed below."
+            : "We couldn’t work out your location. All branches are listed below."
+        );
+      },
+      { enableHighAccuracy: false, timeout: 10000, maximumAge: 60000 }
+    );
+  };
+
+  // Fullscreen: Escape to close, scroll lock, focus handling + simple focus trap.
   React.useEffect(() => {
     if (!expanded) return;
+    const prevFocus = document.activeElement as HTMLElement | null;
+    window.__lenis?.stop();
+    const prevOverflow = document.body.style.overflow;
+    document.body.style.overflow = "hidden";
+    closeBtn.current?.focus();
     const onKey = (e: KeyboardEvent) => {
       if (e.key === "Escape") setExpanded(false);
+      if (e.key !== "Tab" || !shell.current) return;
+      const f = shell.current.querySelectorAll<HTMLElement>(
+        'a[href], button:not([disabled]), [tabindex]:not([tabindex="-1"])'
+      );
+      if (!f.length) return;
+      const first = f[0];
+      const last = f[f.length - 1];
+      if (e.shiftKey && document.activeElement === first) {
+        e.preventDefault();
+        last.focus();
+      } else if (!e.shiftKey && document.activeElement === last) {
+        e.preventDefault();
+        first.focus();
+      }
     };
     document.addEventListener("keydown", onKey);
-    document.body.style.overflow = "hidden";
     return () => {
       document.removeEventListener("keydown", onKey);
-      document.body.style.overflow = "";
+      document.body.style.overflow = prevOverflow;
+      window.__lenis?.start();
+      prevFocus?.focus?.();
     };
   }, [expanded]);
 
-  const mapPanel = (
-    <div
-      className={cn(
-        "relative overflow-hidden rounded-md border border-taupe",
-        expanded ? "h-full w-full" : "h-[420px] w-full lg:h-full"
-      )}
-    >
-      <BranchMap
-        selectedSlug={selectedSlug}
-        onSelect={handleSelect}
-        expanded={expanded}
-        registerMarker={registerMarker}
-        registerMap={registerMap}
-      />
-      <button
-        type="button"
-        onClick={() => setExpanded((v) => !v)}
-        aria-label={expanded ? "Exit fullscreen map" : "Expand map to fullscreen"}
-        className="absolute right-3 top-3 z-[500] inline-flex h-10 w-10 items-center justify-center rounded-sm bg-cream/95 text-espresso shadow-md ring-1 ring-espresso/10 transition-colors hover:bg-cream focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
-      >
-        {expanded ? <Minimize2 className="h-5 w-5" /> : <Maximize2 className="h-5 w-5" />}
-      </button>
-    </div>
-  );
-
-  const list = (
-    <div
-      className={cn(
-        "flex flex-col",
-        expanded ? "h-full overflow-y-auto" : "lg:h-full lg:overflow-y-auto"
-      )}
-    >
-      <BranchGroup
-        title="Dubai"
-        count={DUBAI_BRANCHES.length}
-        branches={DUBAI_BRANCHES}
-        selectedSlug={selectedSlug}
-        onSelect={handleSelect}
-      />
-      <BranchGroup
-        title="Abu Dhabi"
-        count={ABU_DHABI_BRANCHES.length}
-        branches={ABU_DHABI_BRANCHES}
-        selectedSlug={selectedSlug}
-        onSelect={handleSelect}
-      />
-    </div>
-  );
+  const FILTERS: Filter[] = ["All", "Dubai", "Abu Dhabi"];
 
   return (
-    <>
-      {/* Inline layout: list + map side by side on desktop. */}
-      <div
-        className={cn(
-          "grid gap-6 lg:grid-cols-[minmax(0,1fr)_minmax(0,1.4fr)] lg:h-[620px]",
-          expanded && "invisible"
-        )}
-      >
-        <div className="order-2 lg:order-1 lg:h-full lg:overflow-hidden">{list}</div>
-        <div className="order-1 lg:order-2">{mapPanel}</div>
-      </div>
-
-      {/* Fullscreen overlay */}
-      {expanded && (
-        <div
-          className="fixed inset-0 z-[60] bg-cream p-3 sm:p-5"
-          role="dialog"
-          aria-modal="true"
-          aria-label="Branch map — fullscreen"
-        >
-          <div className="grid h-full grid-rows-[minmax(0,1fr)] gap-4 lg:grid-cols-[minmax(0,380px)_minmax(0,1fr)] lg:grid-rows-1">
-            <div className="hidden lg:block lg:h-full lg:overflow-hidden">
-              <div className="mb-3 flex items-center justify-between">
-                <h2 className="font-serif text-2xl text-espresso">Our Locations</h2>
-              </div>
-              {list}
-            </div>
-            <div className="h-full">{mapPanel}</div>
-          </div>
-        </div>
+    <div
+      ref={shell}
+      className={cn(
+        expanded
+          ? "fixed inset-0 z-[125] flex flex-col bg-ivory p-3 sm:p-5"
+          : "grid gap-6 lg:grid-cols-[0.92fr_1.08fr] lg:gap-8"
       )}
-    </>
-  );
-}
-
-function BranchGroup({
-  title,
-  count,
-  branches,
-  selectedSlug,
-  onSelect,
-}: {
-  title: string;
-  count: number;
-  branches: Branch[];
-  selectedSlug: string | null;
-  onSelect: (slug: string) => void;
-}) {
-  return (
-    <div className="mb-6">
-      <h3 className="sticky top-0 z-10 bg-cream/95 py-2 font-subheader text-xs uppercase tracking-luxe text-burgundy backdrop-blur">
-        {title} — {count} {count === 1 ? "Location" : "Locations"}
-      </h3>
-      <ul className="mt-2 space-y-2">
-        {branches.map((branch) => {
-          const active = branch.slug === selectedSlug;
-          return (
-            <li key={branch.slug}>
-              <div
+      {...(expanded ? { role: "dialog", "aria-modal": true, "aria-label": "Branch map, expanded" } : {})}
+    >
+      {/* ——— list column ——— */}
+      <div className={cn("order-2 flex min-h-0 flex-col lg:order-1", expanded && "hidden")}>
+        <div className="flex flex-wrap items-center gap-2">
+          <div role="group" aria-label="Filter branches by emirate" className="flex gap-2">
+            {FILTERS.map((f) => (
+              <button
+                key={f}
+                type="button"
+                aria-pressed={filter === f}
+                onClick={() => setFilter(f)}
                 className={cn(
-                  "rounded-md border p-4 transition-colors",
-                  active
-                    ? "border-burgundy bg-burgundy/5"
-                    : "border-taupe/70 bg-cream/60 hover:border-burgundy/50"
+                  "min-h-11 rounded-full border px-5 font-subheader text-[0.64rem] uppercase tracking-wide2 transition-colors",
+                  filter === f
+                    ? "border-burgundy bg-burgundy text-ivory"
+                    : "border-burgundy/30 text-burgundy hover:bg-cream"
                 )}
               >
-                <button
-                  type="button"
-                  onClick={() => onSelect(branch.slug)}
-                  className="w-full text-left focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring rounded-sm"
-                  aria-pressed={active}
+                {f}
+              </button>
+            ))}
+          </div>
+          <button
+            type="button"
+            onClick={locate}
+            disabled={locating}
+            className="ml-auto inline-flex min-h-11 items-center gap-2 rounded-full bg-burgundy px-5 font-subheader text-[0.64rem] uppercase tracking-wide2 text-ivory transition-colors hover:bg-ink disabled:opacity-60"
+          >
+            <LocateFixed className="h-4 w-4" aria-hidden />
+            {locating ? "Locating…" : "Near me"}
+          </button>
+        </div>
+        <p role="status" aria-live="polite" className="mt-3 min-h-5 text-sm text-espresso/80">
+          {status}
+        </p>
+
+        <ul
+          data-lenis-prevent
+          className="mt-3 max-h-[34rem] space-y-3 overflow-y-auto pr-1 [scrollbar-color:rgb(var(--burgundy)/0.4)_transparent] [scrollbar-width:thin] lg:max-h-[41rem]"
+        >
+          {list.map((b: Branch) => {
+            const active = selected === b.slug;
+            const dist = distances.get(b.slug);
+            return (
+              <li
+                key={b.slug}
+                ref={(el) => {
+                  if (el) itemRefs.current.set(b.slug, el);
+                }}
+              >
+                <div
+                  className={cn(
+                    "rounded-md border p-5 transition-all duration-500 ease-silk",
+                    active
+                      ? "border-burgundy bg-cream shadow-[0_14px_34px_-22px_rgb(var(--burgundy)/0.7)]"
+                      : "border-burgundy/15 bg-ivory hover:border-burgundy/45"
+                  )}
                 >
-                  <p className="flex items-start justify-between gap-2 font-serif text-lg text-espresso">
-                    {branch.name}
-                    {branch.embroidery && (
-                      <span className="mt-1 shrink-0 rounded-full bg-sky/30 px-2 py-0.5 font-sans text-[0.6rem] uppercase tracking-wide text-espresso">
-                        Embroidery
+                  <button
+                    type="button"
+                    onClick={() => select(b.slug)}
+                    aria-pressed={active}
+                    className="block w-full text-left"
+                  >
+                    <span className="flex flex-wrap items-center gap-x-3 gap-y-1">
+                      <span className="font-serif text-2xl leading-tight text-burgundy">{b.name}</span>
+                      <span className="font-subheader text-[0.58rem] uppercase tracking-luxe text-burgundy/80">
+                        {b.emirate}
                       </span>
-                    )}
-                  </p>
-                  <p className="mt-1 flex items-start gap-1.5 text-sm text-ink/75">
-                    <MapPin className="mt-0.5 h-3.5 w-3.5 shrink-0 text-burgundy" />
-                    {branch.address}
-                  </p>
-                  <div className="mt-2 flex items-start gap-1.5 text-xs text-ink/65">
-                    <Clock className="mt-0.5 h-3.5 w-3.5 shrink-0 text-burgundy" />
-                    <span>
-                      {branch.hours.map((h) => (
-                        <span key={h} className="block">
-                          {h}
+                      {b.slug === nearestSlug && (
+                        <span className="rounded-full bg-sky px-2.5 py-0.5 font-subheader text-[0.56rem] uppercase tracking-wide2 text-burgundy">
+                          Nearest
                         </span>
-                      ))}
+                      )}
+                      {dist !== undefined && (
+                        <span className="text-xs text-espresso/70">
+                          {dist < 10 ? dist.toFixed(1) : Math.round(dist)} km
+                        </span>
+                      )}
                     </span>
+                    <span className="mt-2 block text-sm leading-snug text-espresso/85">{b.address}</span>
+                  </button>
+                  <div className="mt-3 grid gap-1.5 text-xs text-espresso/80">
+                    <p className="flex items-start gap-2">
+                      <Clock className="mt-0.5 h-3.5 w-3.5 shrink-0 text-burgundy" aria-hidden />
+                      <span>{b.hours.join(" · ")}</span>
+                    </p>
+                    {b.embroidery && (
+                      <p className="font-subheader text-[0.58rem] uppercase tracking-wide2 text-burgundy">
+                        Embroidery available at this branch
+                      </p>
+                    )}
                   </div>
-                </button>
-                <div className="mt-3 flex flex-wrap items-center gap-3 border-t border-taupe/50 pt-3">
-                  <a
-                    href={telHref(branch.phone)}
-                    className="inline-flex items-center gap-1.5 text-sm text-espresso hover:text-burgundy"
-                  >
-                    <Phone className="h-3.5 w-3.5" />
-                    {branch.phone}
-                  </a>
-                  <a
-                    href={directionsUrl(branch)}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="inline-flex items-center gap-1.5 text-sm font-medium text-burgundy hover:text-espresso"
-                  >
-                    <Navigation className="h-3.5 w-3.5" />
-                    Get directions
-                  </a>
+                  <div className="mt-4 flex flex-wrap gap-x-5 gap-y-1">
+                    <a
+                      href={telHref(b.phone)}
+                      className="inline-flex min-h-11 items-center gap-2 text-sm text-burgundy underline-offset-4 hover:underline"
+                    >
+                      <Phone className="h-4 w-4" aria-hidden /> {b.phone}
+                    </a>
+                    <a
+                      href={directionsUrl(b)}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="inline-flex min-h-11 items-center gap-2 font-subheader text-[0.64rem] uppercase tracking-wide2 text-burgundy underline-offset-4 hover:underline"
+                    >
+                      <Navigation className="h-4 w-4" aria-hidden /> Get directions
+                    </a>
+                  </div>
                 </div>
-              </div>
-            </li>
-          );
-        })}
-      </ul>
+              </li>
+            );
+          })}
+        </ul>
+      </div>
+
+      {/* ——— map column ——— */}
+      <div
+        className={cn(
+          "relative order-1 overflow-hidden rounded-md border border-burgundy/20 lg:order-2",
+          expanded ? "min-h-0 flex-1" : "h-[24rem] sm:h-[30rem] lg:sticky lg:top-28 lg:h-[41rem]"
+        )}
+      >
+        <div data-lenis-prevent className="h-full w-full">
+          <BranchMap
+            selectedSlug={selected}
+            nearestSlug={nearestSlug}
+            userPos={userPos}
+            onSelect={(slug) => select(slug, true)}
+            expanded={expanded}
+            registerMarker={registerMarker}
+            registerMap={registerMap}
+          />
+        </div>
+        <button
+          ref={closeBtn}
+          type="button"
+          onClick={() => setExpanded((v) => !v)}
+          aria-label={expanded ? "Exit full screen map" : "Expand map to full screen"}
+          className="absolute right-3 top-3 z-[500] inline-flex min-h-11 items-center gap-2 rounded-full bg-ivory px-4 font-subheader text-[0.62rem] uppercase tracking-wide2 text-burgundy shadow-md ring-1 ring-burgundy/15 transition-colors hover:bg-cream"
+        >
+          {expanded ? <Minimize2 className="h-4 w-4" aria-hidden /> : <Maximize2 className="h-4 w-4" aria-hidden />}
+          {expanded ? "Close" : "Full screen"}
+        </button>
+        {expanded && (
+          <div className="absolute bottom-3 left-3 z-[500] flex gap-2">
+            <button
+              type="button"
+              onClick={locate}
+              className="inline-flex min-h-11 items-center gap-2 rounded-full bg-burgundy px-4 font-subheader text-[0.62rem] uppercase tracking-wide2 text-ivory"
+            >
+              <LocateFixed className="h-4 w-4" aria-hidden /> Near me
+            </button>
+            {status && (
+              <p role="status" className="max-w-[16rem] self-center rounded bg-ivory/95 px-3 py-1.5 text-xs text-espresso shadow">
+                {status}
+              </p>
+            )}
+          </div>
+        )}
+      </div>
     </div>
   );
 }

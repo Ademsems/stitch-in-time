@@ -1,72 +1,49 @@
 import type { Config } from "tailwindcss";
 
 /**
- * Stitch In Time brand system — quiet-luxury tailoring atelier.
- * Palette and typography per approved brand guidelines.
+ * Stitch In Time brand system — from the approved brandbook.
+ * Ivory #FFFEFA · Cream #F5F1E9 · Espresso #433633 · Burgundy #561B26 ·
+ * Sky Blue #9DB4CE · Ink #1E1E1E. (Channels live in globals.css.)
  */
+const rgb = (name: string) => `rgb(var(--${name}) / <alpha-value>)`;
+
 const config: Config = {
-  darkMode: ["class"],
   content: ["./src/**/*.{ts,tsx,mdx}"],
   theme: {
     container: {
       center: true,
-      padding: {
-        DEFAULT: "1.25rem",
-        sm: "1.5rem",
-        lg: "2rem",
-      },
-      screens: {
-        "2xl": "1200px",
-      },
+      padding: { DEFAULT: "1.25rem", sm: "1.5rem", lg: "2.5rem" },
+      screens: { "2xl": "1240px" },
     },
     extend: {
       colors: {
-        // Brand palette (CSS variables defined in globals.css)
-        cream: "hsl(var(--cream))", // #e8e2d8 — base canvas
-        taupe: "hsl(var(--taupe))", // #e2d5c7 — warm sand panels (was #cbbeae)
-        espresso: "hsl(var(--espresso))", // #4a3428 — dark sections
-        burgundy: "hsl(var(--burgundy))", // #6b1f2a — signature accent
-        sky: "hsl(var(--sky))", // #97b3c8 — cool accent (sparing)
-        ink: "hsl(var(--ink))", // #2b2b2b — body text
-
-        // Semantic tokens (shadcn-style)
-        background: "hsl(var(--background))",
-        foreground: "hsl(var(--foreground))",
-        border: "hsl(var(--border))",
-        input: "hsl(var(--input))",
-        ring: "hsl(var(--ring))",
-        primary: {
-          DEFAULT: "hsl(var(--primary))",
-          foreground: "hsl(var(--primary-foreground))",
-        },
-        secondary: {
-          DEFAULT: "hsl(var(--secondary))",
-          foreground: "hsl(var(--secondary-foreground))",
-        },
-        muted: {
-          DEFAULT: "hsl(var(--muted))",
-          foreground: "hsl(var(--muted-foreground))",
-        },
-        accent: {
-          DEFAULT: "hsl(var(--accent))",
-          foreground: "hsl(var(--accent-foreground))",
-        },
+        ivory: rgb("ivory"),
+        cream: rgb("cream"),
+        espresso: rgb("espresso"),
+        burgundy: rgb("burgundy"),
+        sky: rgb("sky"),
+        ink: rgb("ink"),
+        // semantic aliases used by the UI primitives
+        background: rgb("ivory"),
+        foreground: rgb("ink"),
+        border: "rgb(var(--burgundy) / 0.16)",
+        ring: rgb("burgundy"),
+        primary: { DEFAULT: rgb("burgundy"), foreground: rgb("ivory") },
+        muted: { DEFAULT: rgb("cream"), foreground: "rgb(var(--espresso) / 0.78)" },
       },
       fontFamily: {
-        // Headings — Cormorant Garamond Light (300), italic for accent words.
+        // Headers — Cormorant Garamond Regular (400) + Italic.
         serif: ["var(--font-cormorant)", "Cormorant Garamond", "Georgia", "serif"],
-        // Body / UI — Avenir Book.
+        // Body — Avenir Roman.
         sans: ["var(--font-body)", "Avenir", "Helvetica Neue", "system-ui", "sans-serif"],
-        // Eyebrow / subheader labels — Avenir Black (used ALL CAPS).
+        // Subheaders / eyebrows / buttons — Avenir Heavy, ALL CAPS.
         subheader: ["var(--font-subheader)", "Avenir", "Helvetica Neue", "sans-serif"],
       },
-      borderRadius: {
-        lg: "var(--radius)",
-        md: "calc(var(--radius) - 4px)",
-        sm: "calc(var(--radius) - 8px)",
-      },
-      letterSpacing: {
-        luxe: "0.22em",
+      letterSpacing: { luxe: "0.22em", wide2: "0.14em" },
+      borderRadius: { lg: "0.5rem", md: "0.375rem", sm: "0.25rem" },
+      transitionTimingFunction: {
+        silk: "cubic-bezier(0.22, 1, 0.36, 1)",
+        curtain: "cubic-bezier(0.76, 0, 0.24, 1)",
       },
       keyframes: {
         "accordion-down": {
@@ -77,10 +54,15 @@ const config: Config = {
           from: { height: "var(--radix-accordion-content-height)" },
           to: { height: "0" },
         },
+        marquee: {
+          from: { transform: "translate3d(0,0,0)" },
+          to: { transform: "translate3d(-50%,0,0)" },
+        },
       },
       animation: {
-        "accordion-down": "accordion-down 0.25s ease-out",
-        "accordion-up": "accordion-up 0.25s ease-out",
+        "accordion-down": "accordion-down 0.3s cubic-bezier(0.22,1,0.36,1)",
+        "accordion-up": "accordion-up 0.25s cubic-bezier(0.22,1,0.36,1)",
+        marquee: "marquee 38s linear infinite",
       },
     },
   },

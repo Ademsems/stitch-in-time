@@ -3,34 +3,45 @@ import { Slot } from "@radix-ui/react-slot";
 import { cva, type VariantProps } from "class-variance-authority";
 import { cn } from "@/lib/utils";
 
+/**
+ * Buttons — Avenir Heavy, ALL CAPS, generous tracking (brandbook).
+ * Every variant has a colour-fill SWEEP on hover/focus, implemented with a
+ * background-size transition so it also works with `asChild` links.
+ */
 const buttonVariants = cva(
-  "inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-sm font-sans text-sm font-medium tracking-wide transition-colors duration-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg]:size-4 [&_svg]:shrink-0",
+  [
+    "relative inline-flex select-none items-center justify-center gap-2.5 whitespace-nowrap rounded-sm",
+    "font-subheader text-[0.74rem] uppercase tracking-wide2",
+    "bg-no-repeat [background-position:left_center] [background-size:0%_100%]",
+    "hover:[background-size:100%_100%] focus-visible:[background-size:100%_100%]",
+    "transition-[background-size,color,border-color,box-shadow] duration-500 ease-silk",
+    "disabled:pointer-events-none disabled:opacity-50",
+  ].join(" "),
   {
     variants: {
       variant: {
-        // Signature burgundy CTA
-        default: "bg-burgundy text-cream hover:bg-espresso",
-        // Outlined, for secondary actions on light surfaces
-        outline:
-          "border border-espresso/40 bg-transparent text-espresso hover:bg-espresso hover:text-cream",
-        // For dark (espresso) section breaks
+        // Primary on light surfaces — burgundy, sweeps to ink.
+        default:
+          "bg-burgundy text-ivory [background-image:linear-gradient(rgb(var(--ink)),rgb(var(--ink)))] shadow-[0_10px_30px_-14px_rgb(var(--burgundy)/0.8)]",
+        // Primary on dark surfaces — ivory, sweeps to sky (burgundy text stays AA).
         onDark:
-          "border border-cream/40 bg-transparent text-cream hover:bg-cream hover:text-espresso",
-        cream: "bg-cream text-espresso hover:bg-taupe",
-        ghost: "bg-transparent text-espresso hover:bg-espresso/10",
+          "bg-ivory text-burgundy [background-image:linear-gradient(rgb(var(--sky)),rgb(var(--sky)))]",
+        // Burgundy outline — burgundy fill sweeps in.
+        outline:
+          "border border-burgundy text-burgundy [background-image:linear-gradient(rgb(var(--burgundy)),rgb(var(--burgundy)))] hover:text-ivory focus-visible:text-ivory",
+        outlineDark:
+          "border border-ivory/60 text-ivory [background-image:linear-gradient(rgb(var(--ivory)),rgb(var(--ivory)))] hover:text-burgundy focus-visible:text-burgundy",
+        ghost: "text-burgundy hover:bg-cream",
         link: "text-burgundy underline-offset-4 hover:underline",
       },
       size: {
-        default: "h-11 px-6 py-2",
-        sm: "h-9 px-4 text-xs",
-        lg: "h-13 px-8 text-base",
-        icon: "h-10 w-10",
+        default: "h-12 px-6",
+        lg: "h-14 px-8 text-[0.78rem]",
+        sm: "h-11 px-5",
+        icon: "h-11 w-11",
       },
     },
-    defaultVariants: {
-      variant: "default",
-      size: "default",
-    },
+    defaultVariants: { variant: "default", size: "default" },
   }
 );
 

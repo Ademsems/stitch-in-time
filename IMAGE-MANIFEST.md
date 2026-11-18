@@ -1,115 +1,110 @@
 # Stitch In Time — Image Manifest
 
-Photography shopping list for the client shoot/sourcing.  
-**8 images total. 2 are required for launch; 4 more are high-priority.**
+The photography shopping list for the site (updated for the brandbook redesign).
+**13 image slots in total — 9 already delivered, 4 still open (all optional — nothing required is missing).**
 
 ---
 
 ## How to add images
 
-1. Export your image as a JPG (or WebP — both work).
-2. Name it **exactly** as shown in the filename column below (kebab-case, with extension).
-3. Drop it into the **exact folder** shown — no subfolders, no renamed files.
-4. Redeploy (or rebuild with `npm run build`).
-5. It appears automatically. **No code change needed.**
+1. Export the image as a **JPG** (WebP also works).
+2. Name it **exactly** as in the *Filename* column (lower-case, hyphens, with extension).
+3. Drop it into the **exact folder** shown (`/public/images/...`).
+4. Rebuild / redeploy. It appears automatically — **no code change needed.**
 
-> The code already points at the final file path for every slot. While a file is
-> missing, a branded placeholder renders instead — the site never shows a broken image.
+> Every slot already points at its final path. While a file is missing, a branded
+> placeholder (burgundy, spool mark and stripe band) is shown instead — the site
+> never shows a broken image and never errors.
 
-**Format:** JPG for photos. WebP is also accepted and gives smaller file sizes.  
-**Resolution:** Export at **2× the dimensions listed** (retina/HiDPI screens). Example: a 1200px-wide spec → export at 2400px.  
-**File size:** Keep each image under **400 KB** (compress with [Squoosh](https://squoosh.app) or similar after export). For the hero, under **600 KB** is acceptable given its full-screen role.
+**Format** JPG for photographs (WebP preferred where you can). **Resolution** export at **2×** the
+size in the table (retina). **File size** aim for under 400 KB per image (hero under 600 KB) —
+Next.js also resizes and re-encodes every image automatically, so just upload a clean, high-quality
+original. **Colour** warm, natural, consistent grade across the set.
+
+### Crops — what the layout does to your photo
+| Shape | Where | What to know |
+|---|---|---|
+| **Circle** (1:1) | Home hero, the four pillars | The photo is centre-cropped to a circle. Keep the subject in the **middle 60%** of the frame. |
+| **Arch** (4:5, rounded top) | Services, Home Fitting, About, Guarantee | Top corners are cut by the arch — leave headroom, keep the subject in the lower two-thirds. |
+| **Card** (≈ 4:5.2 portrait) | Home "services" showcase | Same photo as the Services page; portrait works best. Landscape photos are centre-cropped. |
 
 ---
 
-## Priority guide
+## Priorities
 
 | Priority | Meaning |
 |---|---|
-| **REQUIRED** | Site feels incomplete without it. Shoot/source first. |
-| **HIGH** | Significantly improves the page. Aim for launch. |
-| **RECOMMENDED** | Noticeably better with it, can launch without. |
-| **NICE-TO-HAVE** | Placeholder reads fine; add when budget allows. |
+| ⭐ **REQUIRED** | The page feels unfinished without it. |
+| **HIGH** | Noticeably better with it — aim for launch. |
+| **NICE** | Placeholder reads fine; add when budget allows. |
+
+**Minimum viable shoot — 4 photographs cover the biggest slots:**
+`home-hero.jpg` · `home-fitting-hero.jpg` · `service-alterations.jpg` · `about-atelier.jpg`
+(all four are already delivered ✅ — the four open slots are optional upgrades).
 
 ---
 
-## Home page (`/`)
+## Home (`/`)
 
-| # | Filename | Folder | Section | What to shoot | Dimensions (1×) | Aspect ratio | Orientation | Priority | Alt text |
+| # | Filename | Folder | Section | Shape / size (1×) | Orientation | Priority | Status | Art direction | Alt text |
 |---|---|---|---|---|---|---|---|---|---|
-| 1 | `home-hero.jpg` | `/public/images/home/` | Hero (full-bleed background) | Master tailor at work in an elegant Dubai atelier. Hands pinning or measuring a garment on a dress form or fitting stand. Warm, directional light. Shallow depth of field. Subject fills left-to-centre frame; right side has breathing room for the headline. Espresso/cream palette preferred. | 2400 × 1600 | 3:2 | **Landscape** | **REQUIRED** ⭐ | "Master tailor at Stitch In Time performing a precise clothing alteration in a Dubai atelier" |
-| 2 | `home-guarantee-detail.jpg` | `/public/images/home/` | Guarantee section (portrait card) | Extreme close-up of a finished hem. Gutermann thread in a warm tone, needle, fabric texture — tactile and premium. Macro lens, very shallow depth of field. Almost no background visible. | 1200 × 1500 | 4:5 | **Portrait** | **HIGH** | "Detail of a hand-finished hem sewn with premium Gutermann thread" |
+| 1 | `home-hero.jpg` | `/public/images/home/` | Hero — circular mask | Circle, 1000 × 1000 (export 2000 × 2000) | Square-ish | ⭐ REQUIRED | ✅ delivered (1376 × 768 — re-export square if possible) | Hands at work on a garment: needle, thread, label. Warm directional light, shallow depth. Subject centred. | "A Stitch In Time tailor hand-finishing the label of a tailored jacket" |
+| 2 | `pillar-bespoke-atelier.jpg` | `/public/images/home/` | Four pillars — "Bespoke Atelier" | Circle, 560 × 560 (export 1120) | Square | NICE | open | The atelier: fitting table, spools, garments in progress. | "A tailor's atelier with a fitting table, spools of thread and garments in progress" |
+| 3 | `pillar-quiet-luxury.jpg` | `/public/images/home/` | Four pillars — "Quiet Luxury" | Circle, 560 × 560 | Square | NICE | open | Understated detail: a finished cuff, a watch, fine fabric. | "Close detail of a finely finished garment cuff and watch" |
+| 4 | `pillar-precision-craftsmanship.jpg` | `/public/images/home/` | Four pillars — "Precision & Craftsmanship" | Circle, 560 × 560 | Square | NICE | open | Tape measure, chalk, hands marking cloth. | "Tailor's hands marking and measuring fabric with a tape measure" |
+| 5 | `home-guarantee-detail.jpg` | `/public/images/home/` | Guarantee section — arch | Arch 4:5, 1200 × 1500 (export 2400 × 3000) | Portrait | HIGH | ✅ delivered | Macro of a hand-finished hem / lining; Gütermann thread; tactile and quiet. | "Detail of a hand-finished hem sewn with premium Gütermann thread" |
 
----
+*Pillar 4, "Premium Convenience", re-uses `home-fitting-hero.jpg` (below).*
 
-## Services page (`/services`) — also used on the Home services grid
+## Services (`/services`) — the same five photos also appear in the Home "services" showcase
 
-> These 5 images each appear in **two places**: the home page services grid (16:10 crop) and the services detail page (4:5 portrait). Shoot in portrait — the wider crop is generated automatically. Shoot at 1200 × 1500 minimum (export 2400 × 3000).
-
-| # | Filename | Folder | Services section | What to shoot | Dimensions (1×) | Aspect ratio | Orientation | Priority | Alt text |
+| # | Filename | Folder | Service | Shape / size (1×) | Orientation | Priority | Status | Art direction | Alt text |
 |---|---|---|---|---|---|---|---|---|---|
-| 3 | `service-alterations.jpg` | `/public/images/services/` | Alterations (first card — most prominent) | Tailor pinning a trouser hem or jacket lapel. Hands in focus, with pin cushion or chalk visible. Atelier/boutique setting. Warm, editorial light. | 1200 × 1500 | 4:5 | **Portrait** | **REQUIRED** ⭐ | "Tailor pinning a garment for precise alteration at a Stitch In Time atelier in Dubai" |
-| 4 | `service-repairs-restoration.jpg` | `/public/images/services/` | Repairs & Restoration | Close-up of a YKK zip replacement in progress — zip slider, threads, hands partially visible. Rich fabric texture (denim, leather, or suiting). | 1200 × 1500 | 4:5 | **Portrait** | **HIGH** | "Close-up of a premium YKK zip replacement during a clothing repair in Abu Dhabi" |
-| 5 | `service-custom-tailoring.jpg` | `/public/images/services/` | Custom Tailoring & Measurements | Tailor taking body measurements with a tape measure around the waist or shoulder. Clean studio or mall boutique setting, natural light, professional feel. | 1200 × 1500 | 4:5 | **Portrait** | **HIGH** | "Made-to-measure tailoring and body measurement consultation at Stitch In Time" |
-| 6 | `service-embroidery.jpg` | `/public/images/services/` | Embroidery (Dubai Mall only) | Embroidery machine close-up — needle stitching a monogram or logo onto premium fabric. Rich colour contrast (gold/cream thread on dark material works well). | 1200 × 1500 | 4:5 | **Portrait** | **RECOMMENDED** | "Machine embroidery of a monogram on premium fabric at the Dubai Mall branch" |
-| 7 | `service-business-services.jpg` | `/public/images/services/` | Business Services | A small team fitting session — tailors measuring or adjusting uniformed staff in a professional/office environment. Clean and corporate in feel. | 1200 × 1500 | 4:5 | **Portrait** | **NICE-TO-HAVE** | "Corporate uniform fitting session for a business team at a Stitch In Time location" |
+| 6 | `service-alterations.jpg` | `/public/images/services/` | Alterations | Arch 4:5, 1200 × 1500 (export 2400 × 3000) | Portrait | ⭐ REQUIRED | ✅ delivered | A tailor pinning a hem or lapel; chalk, pins, warm light. | "Tailor pinning a garment for precise alteration at a Stitch In Time atelier in Dubai" |
+| 7 | `service-repairs-restoration.jpg` | `/public/images/services/` | Repairs & Restoration | Arch 4:5, 1200 × 1500 | Portrait | HIGH | ✅ delivered | Close-up of a zip or seam repair; rich fabric texture. | "Close-up of a premium YKK zip replacement during a clothing repair in Abu Dhabi" |
+| 8 | `service-custom-tailoring.jpg` | `/public/images/services/` | Custom Tailoring | Arch 4:5, 1200 × 1500 | Portrait | HIGH | ✅ delivered | Measuring with a tape; boutique setting, natural light. | "Made-to-measure tailoring and body measurement consultation at Stitch In Time" |
+| 9 | `service-embroidery.jpg` | `/public/images/services/` | Embroidery (Dubai Mall) | Arch 4:5, 1200 × 1500 | Portrait | NICE | ✅ delivered | Machine stitching a monogram on premium fabric. | "Machine embroidery of a monogram on premium fabric at the Dubai Mall branch" |
+| 10 | `service-business-services.jpg` | `/public/images/services/` | Business Services | Arch 4:5, 1200 × 1500 | Portrait | NICE | ✅ delivered | A uniform fitting session in a professional setting. | "Corporate uniform fitting session for a business team at a Stitch In Time location" |
+| 11 | `service-express.jpg` | `/public/images/services/` | Express (Home showcase card only) | Card ≈ 4:5.2, 1200 × 1560 | Portrait | NICE | open | A quick, precise alteration in progress — clock or timer subtly in frame. | "A tailor completing an urgent alteration under the express service" |
 
----
+## Home Fitting (`/home-fitting`) — the primary conversion page
 
-## About page (`/about`)
-
-| # | Filename | Folder | Section | What to shoot | Dimensions (1×) | Aspect ratio | Orientation | Priority | Alt text |
+| # | Filename | Folder | Section | Shape / size (1×) | Orientation | Priority | Status | Art direction | Alt text |
 |---|---|---|---|---|---|---|---|---|---|
-| 8 | `about-atelier.jpg` | `/public/images/about/` | Brand Story (portrait card, sticky on desktop) | Editorial interior of a Stitch In Time mall boutique. A tailor at the work bench — garment in progress, tools on the surface. Warm light, slightly shallow depth. Conveys craft and permanence. | 1200 × 1500 | 4:5 | **Portrait** | **HIGH** | "The Stitch In Time atelier — tailors at work in a Dubai boutique" |
+| 12 | `home-fitting-hero.jpg` | `/public/images/home-fitting/` | Hero — arch (also pillar "Premium Convenience") | Arch 4:5, 1200 × 1500 (export 2400 × 3000) | Portrait | ⭐ REQUIRED | ✅ delivered (moved here from `home-service.jpeg`) | A tailor arriving at the door with a garment rail — private, refined, in a rich interior. | "A Stitch In Time tailor arriving with a garment rail for a private home fitting" |
+
+## About (`/about`)
+
+| # | Filename | Folder | Section | Shape / size (1×) | Orientation | Priority | Status | Art direction | Alt text |
+|---|---|---|---|---|---|---|---|---|---|
+| 13 | `about-atelier.jpg` | `/public/images/about/` | Our Story — arch | Arch 4:5, 1200 × 1500 (export 2400 × 3000) | Portrait | HIGH | ✅ delivered (1600 × 900 landscape — a portrait re-crop will sit better) | The craft behind the brand: thread, tools, an atelier bench. | "Spools of Gütermann thread in cream, taupe, espresso, burgundy and sky blue — the materials at the heart of Stitch In Time" |
+
+## Locations (`/locations`)
+No photography slots — the page is anchored by the interactive map. `/public/images/locations/` is
+reserved for future branch / storefront photos.
+
+## Not photography (generated automatically)
+The **social-share (Open Graph) image** and the **favicon / app icon** are generated from the brand
+logo files — nothing to supply.
 
 ---
 
-## Locations page (`/locations`)
-
-No image slots currently — the page is anchored by the interactive Leaflet map.  
-The `/public/images/locations/` folder exists for any future additions (storefront photos, branch thumbnails, etc.).
-
----
-
-## Folder structure (created and ready)
+## Folder structure
 
 ```
-public/
-  images/
-    home/
-      .gitkeep          ← drop home-hero.jpg and home-guarantee-detail.jpg here
-    services/
-      .gitkeep          ← drop all 5 service-*.jpg files here
-    about/
-      .gitkeep          ← drop about-atelier.jpg here
-    locations/
-      .gitkeep          ← reserved for future branch/storefront photos
+public/images/
+  home/            home-hero · pillar-bespoke-atelier · pillar-quiet-luxury ·
+                   pillar-precision-craftsmanship · home-guarantee-detail
+  services/        service-alterations · -repairs-restoration · -custom-tailoring ·
+                   -embroidery · -business-services · -express
+  home-fitting/    home-fitting-hero
+  about/           about-atelier
+  locations/       (reserved)
 ```
 
----
+## Photography direction
+Warm, tactile, editorial — quiet luxury. Natural directional light; hands, needle, thread and
+tape; cream / espresso / burgundy / sky-blue accents; shallow depth of field; no clutter, no harsh
+flash. Keep one consistent colour grade across the whole set. Faces are optional — craft is the hero.
 
-## Minimum viable shoot (4 images)
-
-If budget or time is tight, these 4 images cover the highest-impact slots:
-
-1. `home-hero.jpg` — sets the brand tone for the entire site
-2. `service-alterations.jpg` — appears on both the home grid and the services page
-3. `about-atelier.jpg` — humanises the brand on the About page
-4. `home-guarantee-detail.jpg` — reinforces craft quality on the home page
-
----
-
-## Photography direction notes
-
-All images should be consistent with the **quiet-luxury atelier** aesthetic:
-- **Warm, natural light** — no harsh flash, no clinical white
-- **Tactile and editorial** — fabric texture, thread, tools visible in frame
-- **Hands and craft** — the human element is more important than faces
-- **Muted, warm palette** — cream, espresso, camel, natural linen tones; avoid vivid synthetics
-- **Clean backgrounds** — boutique or atelier setting; no clutter
-- **Shallow depth of field** — keeps focus on craft detail
-- Consistent colour-grading across all images (warm tone, slightly desaturated)
-
----
-
-*Image manifest generated for Fekra Communications · Stitch In Time website build.*
+*Image manifest · Fekra Communications · Stitch In Time website.*

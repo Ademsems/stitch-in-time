@@ -1,12 +1,9 @@
 import type { Metadata } from "next";
-import {
-  Check,
-  MessageCircle,
-  Mail,
-  Phone,
-  ScrollText,
-} from "lucide-react";
-import { Reveal } from "@/components/Reveal";
+import { Check, MessageCircle, Mail, Phone, ScrollText } from "lucide-react";
+import { Reveal } from "@/components/fx/Reveal";
+import { SplitHeading } from "@/components/fx/SplitHeading";
+import { RiseHeading } from "@/components/fx/RiseHeading";
+import { StripeBand } from "@/components/fx/StripeBand";
 import { BookButton } from "@/components/BookButton";
 import { FaqSection } from "@/components/FaqSection";
 import { JsonLd } from "@/components/JsonLd";
@@ -37,38 +34,11 @@ const BRANCH_OFFERINGS = [
 ];
 
 const CONTACTS = [
-  {
-    icon: MessageCircle,
-    label: "WhatsApp — Dubai",
-    value: CONTACT.whatsappDubaiDisplay,
-    href: whatsappLink(CONTACT.whatsappDubai),
-    external: true,
-  },
-  {
-    icon: MessageCircle,
-    label: "WhatsApp — Abu Dhabi",
-    value: CONTACT.whatsappAbuDhabiDisplay,
-    href: whatsappLink(CONTACT.whatsappAbuDhabi),
-    external: true,
-  },
-  {
-    icon: Mail,
-    label: "Home Fitting Email",
-    value: CONTACT.homeEmail,
-    href: `mailto:${CONTACT.homeEmail}`,
-  },
-  {
-    icon: Mail,
-    label: "Embroidery Enquiries",
-    value: CONTACT.embroideryEmail,
-    href: `mailto:${CONTACT.embroideryEmail}`,
-  },
-  {
-    icon: Phone,
-    label: "General Enquiries",
-    value: CONTACT.generalPhone,
-    href: `tel:${CONTACT.generalPhoneDial}`,
-  },
+  { icon: MessageCircle, label: "WhatsApp — Dubai", value: CONTACT.whatsappDubaiDisplay, href: whatsappLink(CONTACT.whatsappDubai), external: true },
+  { icon: MessageCircle, label: "WhatsApp — Abu Dhabi", value: CONTACT.whatsappAbuDhabiDisplay, href: whatsappLink(CONTACT.whatsappAbuDhabi), external: true },
+  { icon: Mail, label: "Home Fitting Email", value: CONTACT.homeEmail, href: `mailto:${CONTACT.homeEmail}` },
+  { icon: Mail, label: "Embroidery Enquiries", value: CONTACT.embroideryEmail, href: `mailto:${CONTACT.embroideryEmail}` },
+  { icon: Phone, label: "General Enquiries", value: CONTACT.generalPhone, href: `tel:${CONTACT.generalPhoneDial}` },
 ];
 
 export default function LocationsPage() {
@@ -87,91 +57,89 @@ export default function LocationsPage() {
         ]}
       />
 
-      {/* ———————————————————— Intro ———————————————————— */}
-      <section className="bg-cream">
-        <div className="container py-20 md:py-24">
-          <Reveal className="max-w-3xl">
-            <p className="eyebrow">Our Locations</p>
-            <h1 className="mt-4 font-serif text-4xl leading-tight text-espresso md:text-6xl">
-              11 Mall Boutiques Across{" "}
-              <em className="italic">Dubai &amp; Abu Dhabi.</em>
-            </h1>
-            <div className="mt-6 space-y-4 font-sans text-base leading-relaxed text-ink/80">
-              <p>
-                Stitch In Time operates across 11 premium mall locations in Dubai
-                and Abu Dhabi, making professional tailoring and clothing
-                alterations accessible wherever you live, work, or shop.
-              </p>
-              <p>
-                Every branch offers the full Stitch In Time service — expert
-                alterations, clothing repairs, walk-in fittings, and professional
-                tailoring advice — with consistent quality and the same
-                workmanship guarantee across every location.
-              </p>
-              <p className="font-medium text-espresso">
-                Walk-ins are always welcome. No appointment needed for in-store
-                alterations. Prefer the convenience of a home visit? Book our home
-                fitting service and we will come to you.
-              </p>
-            </div>
-          </Reveal>
+      <section className="bg-ivory">
+        <div className="container grid gap-10 py-16 md:py-24 lg:grid-cols-[1.1fr_0.9fr] lg:items-end lg:gap-20">
+          <div>
+            <p className="eyebrow hero-in" style={{ ["--d" as string]: "0.05s" }}>
+              Our Locations
+            </p>
+            <RiseHeading className="mt-5 text-5xl leading-[1.02] md:text-7xl">
+              11 mall boutiques across <em className="italic">Dubai &amp; Abu Dhabi.</em>
+            </RiseHeading>
+          </div>
+          <div
+            className="hero-in space-y-4 text-base leading-relaxed text-espresso/90"
+            style={{ ["--d" as string]: "0.5s" }}
+          >
+            <p>
+              Stitch In Time operates across 11 premium mall locations in Dubai and Abu Dhabi,
+              making professional tailoring and clothing alterations accessible wherever you live,
+              work, or shop.
+            </p>
+            <p>
+              Every branch offers the full Stitch In Time service — expert alterations, clothing
+              repairs, walk-in fittings, and professional tailoring advice — with consistent
+              quality and the same workmanship guarantee across every location.
+            </p>
+            <p className="font-serif text-2xl leading-snug text-burgundy">
+              Walk-ins are always welcome. No appointment needed for in-store alterations. Prefer
+              the convenience of a home visit? Book our home fitting service and we will come to
+              you.
+            </p>
+          </div>
         </div>
       </section>
 
-      {/* ———————————————————— Map + synced list ———————————————————— */}
-      <section className="bg-cream pb-20">
+      <section className="bg-ivory pb-20 md:pb-28">
         <div className="container">
           <LocationsExplorer />
         </div>
       </section>
 
-      {/* ———————————————————— What every branch offers ———————————————————— */}
-      <section className="section bg-espresso text-cream">
-        <div className="container grid gap-12 lg:grid-cols-2 lg:items-center">
-          <Reveal>
-            <p className="eyebrow text-cream/70">Consistent Everywhere</p>
-            <h2 className="mt-3 text-3xl md:text-4xl text-cream">
-              What Every Branch Offers
+      <section data-theme="dark" className="relative overflow-hidden bg-espresso text-ivory">
+        <StripeBand tone="dark" />
+        <div className="container section grid gap-14 lg:grid-cols-2 lg:items-center lg:gap-24">
+          <Reveal variant="left">
+            <p className="eyebrow">Consistent Everywhere</p>
+            <h2 className="mt-4 text-4xl leading-[1.05] !text-ivory md:text-5xl">
+              What every branch <em className="italic">offers.</em>
             </h2>
             <ul className="mt-8 space-y-4">
               {BRANCH_OFFERINGS.map((item) => (
-                <li key={item} className="flex items-start gap-3 text-cream/85">
-                  <Check className="mt-0.5 h-5 w-5 shrink-0 text-sky" />
-                  <span className="font-sans text-base">{item}</span>
+                <li key={item} className="flex items-start gap-3 text-ivory/90">
+                  <Check className="mt-0.5 h-5 w-5 shrink-0 text-sky" aria-hidden />
+                  <span>{item}</span>
                 </li>
               ))}
             </ul>
-            <div className="mt-8">
-              <BookButton label="Book a Home Fitting" variant="cream" />
+            <div className="mt-10">
+              <BookButton label="Book a Home Fitting" variant="onDark" />
             </div>
           </Reveal>
 
-          {/* Contact directly */}
-          <Reveal delay={0.1}>
-            <div className="rounded-md border border-cream/20 bg-cream/5 p-8">
-              <h3 className="font-serif text-2xl text-cream">Contact Us Directly</h3>
-              <p className="mt-2 font-sans text-sm text-cream/70">
+          <Reveal variant="right" delay={0.1}>
+            <div className="rounded-md border border-ivory/20 p-8">
+              <h3 className="font-serif text-3xl !text-ivory">Contact us directly</h3>
+              <p className="mt-2 text-sm text-ivory/75">
                 No contact form — just direct, click-to-action links.
               </p>
-              <ul className="mt-6 divide-y divide-cream/10">
+              <ul className="mt-6 divide-y divide-ivory/15">
                 {CONTACTS.map((c) => (
                   <li key={c.label}>
                     <a
                       href={c.href}
                       target={c.external ? "_blank" : undefined}
                       rel={c.external ? "noopener noreferrer" : undefined}
-                      className="flex items-center gap-4 py-3.5 transition-colors hover:text-cream"
+                      className="flex min-h-14 items-center gap-4 py-3 transition-colors hover:text-sky"
                     >
-                      <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full border border-cream/25 text-cream/80">
-                        <c.icon className="h-4 w-4" />
+                      <span className="flex h-11 w-11 shrink-0 items-center justify-center rounded-full border border-ivory/30">
+                        <c.icon className="h-4 w-4" aria-hidden />
                       </span>
                       <span>
-                        <span className="block font-subheader text-xs uppercase tracking-wide text-cream/55">
+                        <span className="block font-subheader text-[0.58rem] uppercase tracking-luxe text-sky">
                           {c.label}
                         </span>
-                        <span className="block font-sans text-base text-cream/90">
-                          {c.value}
-                        </span>
+                        <span className="block text-base text-ivory">{c.value}</span>
                       </span>
                     </a>
                   </li>
@@ -182,14 +150,12 @@ export default function LocationsPage() {
         </div>
       </section>
 
-      {/* ———————————————————— Locations FAQs ———————————————————— */}
       <FaqSection faqs={faqs} heading="Visiting Us — Questions & Answers" eyebrow="Walk-ins & Coverage" />
 
-      {/* Small footnote about embroidery exclusivity */}
-      <section className="border-t border-taupe/60 bg-taupe/20">
-        <div className="container flex items-center justify-center gap-3 py-6 text-center">
-          <ScrollText className="h-4 w-4 text-burgundy" />
-          <p className="font-sans text-sm text-ink/70">
+      <section className="border-t border-burgundy/15 bg-cream">
+        <div className="container flex items-center justify-center gap-3 py-7 text-center">
+          <ScrollText className="h-4 w-4 text-burgundy" aria-hidden />
+          <p className="text-sm text-espresso/80">
             Embroidery services are available exclusively at our Dubai Mall branch.
           </p>
         </div>
